@@ -38,5 +38,12 @@ int main(void)
 		i++;
 	}
 	/* 모든 노드를 메모리에서 제거 */
+	Current = List;
+	while (Current) {
+		Node* NextNode = Current->NextNode;
 
+		SLL_RemoveNode(&List, Current);
+		SLL_DestroyNode(Current);
+		Current = NextNode;
+	}
 }
