@@ -20,7 +20,6 @@ int main(void)
 	i = 0;
 	Current = List;
 	while (Current) {
-		Current = DLL_GetNodeAt(List, i);
 		printf("List[%d] : %d\n", i, Current->Data);
 		i++;
 		Current = Current->NextNode;
@@ -37,7 +36,6 @@ int main(void)
 	i = 0;
 	Current = List;
 	while (Current) {
-		Current = DLL_GetNodeAt(List, i);
 		printf("List[%d] : %d\n", i, Current->Data);
 		i++;
 		Current = Current->NextNode;
