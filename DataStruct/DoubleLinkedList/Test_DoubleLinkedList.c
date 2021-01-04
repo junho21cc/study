@@ -24,6 +24,8 @@ int main(void)
 		i++;
 		Current = Current->NextNode;
 	}
+	Count = DLL_GetNodeCount(List);
+	printf("현재 리스트의 노드의 개수는 %d개 이다.\n", Count);
 
 	// 리스트의 세 번째 칸 뒤에 노드 삽입
 	printf("\nInserting 3000 After [2]...\n\n");
@@ -40,6 +42,8 @@ int main(void)
 		i++;
 		Current = Current->NextNode;
 	}
+	Count = DLL_GetNodeCount(List);
+	printf("현재 리스트의 노드의 개수는 %d개 이다.\n", Count);
 
 	// 모든 노드를 메모리에서 제거
 	printf("\nDestroying List...\n");
@@ -55,5 +59,8 @@ int main(void)
 		}
 		Current = NextNode;
 	}
+
+	Count = DLL_GetNodeCount(List);
+	printf("현재 리스트의 노드의 개수는 %d개 이다.\n", Count);
 	//return 0;
 }

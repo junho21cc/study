@@ -84,5 +84,11 @@ Node* DLL_GetNodeAt(Node* Head, int Location)
 
 int DLL_GetNodeCount(Node* Head)
 {
-	return 0;
+	int Count = 0;
+	while (Head)
+	{
+		Head = Head->NextNode;
+		Count++;
+	}
+	return Count;
 }
