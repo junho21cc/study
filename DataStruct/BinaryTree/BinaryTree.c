@@ -22,10 +22,8 @@ void BT_Insert(BTNode** root, int Data)
 		NewNode->Data = Data;
 		NewNode->left = NULL;
 		NewNode->right = NULL;
-
 		*root = NewNode;
 		return;
-
 		// 삽입하고자 하는 데이터 값이 left child와 right child를 비교해서 삽입한다.
 
 		if (Data < (*root)->Data) {

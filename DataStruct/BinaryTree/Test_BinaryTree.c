@@ -5,7 +5,6 @@ int main(void)
 	BTNode* root;
 	/*
 	root = BT_CreateNode(1);
-
 	root->left = BT_CreateNode(2);
 	root->right = BT_CreateNode(3);
 
