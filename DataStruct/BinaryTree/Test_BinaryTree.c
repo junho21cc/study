@@ -18,5 +18,6 @@ int main(void)
 	for (int i = 1; i < 8; i++) {
 		BT_Insert(&root, i);
 	}
+
 	BT_InOrderSearch(root);
 }

@@ -16,7 +16,7 @@ void BT_Insert(BTNode** root, int Data)
 {
 	// 뿌리에 아무것도 없을때
 	BTNode* NewNode = NULL;
-	if (!(*root))
+	if ((*root) != NULL)
 	{
 		NewNode = (BTNode*)malloc(sizeof(BTNode));
 		NewNode->Data = Data;
@@ -24,6 +24,7 @@ void BT_Insert(BTNode** root, int Data)
 		NewNode->right = NULL;
 		*root = NewNode;
 		return;
+
 		// 삽입하고자 하는 데이터 값이 left child와 right child를 비교해서 삽입한다.
 
 		if (Data < (*root)->Data) {
@@ -33,7 +34,6 @@ void BT_Insert(BTNode** root, int Data)
 			BT_Insert(&(*root)->right, Data);
 		}
 	}
-
 }
 
 // 중위 탐색 (전위탐색과 후위탐색은 순서만 다르기때문에 구현하지 않았다.)
