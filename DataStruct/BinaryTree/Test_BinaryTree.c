@@ -1,6 +1,6 @@
 #include "BinaryTree.h"
 
-int main(void)
+int main()
 {
 	BTNode* root;
 	/*
@@ -14,10 +14,16 @@ int main(void)
 	root->right->left = BT_CreateNode(6);
 	root->right->right = BT_CreateNode(7);
 	*/
-	
-	for (int i = 1; i < 8; i++) {
-		BT_Insert(&root, i);
-	}
+
+	root = BT_CreateNode(11);
+
+	BT_InsertNode(&root, 10);
+	BT_InsertNode(&root, 15);
+	BT_InsertNode(&root, 7);
+	BT_InsertNode(&root, 8);
+	BT_InsertNode(&root, 9);
+
 
 	BT_InOrderSearch(root);
+	return 0;
 }
