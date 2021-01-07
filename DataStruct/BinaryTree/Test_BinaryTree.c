@@ -1,8 +1,9 @@
+#include <stdio.h>
 #include "BinaryTree.h"
 
 int main()
 {
-	BTNode* root;
+	BTNode* root = NULL;
 	/*
 	root = BT_CreateNode(1);
 	root->left = BT_CreateNode(2);
@@ -15,14 +16,13 @@ int main()
 	root->right->right = BT_CreateNode(7);
 	*/
 
-	root = BT_CreateNode(11);
-
+	BT_InsertNode(&root, 11);
 	BT_InsertNode(&root, 10);
 	BT_InsertNode(&root, 15);
 	BT_InsertNode(&root, 7);
 	BT_InsertNode(&root, 8);
 	BT_InsertNode(&root, 9);
-
+	BT_InsertNode(&root, 9);
 
 	BT_InOrderSearch(root);
 	return 0;

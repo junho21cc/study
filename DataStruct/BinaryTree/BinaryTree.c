@@ -13,33 +13,32 @@ BTNode* BT_CreateNode(int Data)
 	return NewNode;
 }
 
-/*
+
 // 2021.01.06 버전
-void BT_Insert(BTNode** root, int Data)
+void BT_InsertNode(BTNode** root, int Data)
 {
 	// 뿌리에 아무것도 없을때
-	BTNode* NewNode = NULL;
 	if ((*root))
 	{
-		NewNode = (BTNode*)malloc(sizeof(BTNode));
-		NewNode->Data = Data;
-		NewNode->left = NULL;
-		NewNode->right = NULL;
-		*root = NewNode;
-		return;
-
-		}
-
 		// 삽입하고자 하는 데이터 값이 left child와 right child를 비교해서 삽입한다.
-
 		if (Data < (*root)->Data) {
-			BT_Insert(&(*root)->left, Data);
+			BT_InsertNode(&(*root)->left, Data);
 		}
 		else if (Data > (*root)->Data) {
-			BT_Insert(&(*root)->right, Data);
+			BT_InsertNode(&(*root)->right, Data);
+		}
+		else
+		{
+			printf("No duplicate data\n");
+		}
+	}
+	else
+	{
+		*root = BT_CreateNode(Data);
 	}
 }
-*/
+	
+
 
 // 2021.01.07 (알고리즘책 참고)
 // 왜 이름에 탐색이 들어가는 자료구조인가?-> 탐색하기에 효율적인 조건이 있기때문에?
@@ -99,7 +98,7 @@ void BT_SearchNode(BTNode* root, int SearchData)
 		}
 	}
 }
-
+/*
 // 추가 2021.01.07 (k-mooc 강의 참조)
 // 질문_1: 시간 복잡도는 프로그래밍의 효율적인 문제이기때문에 사용하는건가?
 // 질문_2: 메모리를 새로 할당받아서 연결하는 과정은 root를 변경하는 과정이기때문에 파라미터를 BTNode** root라고 해야되는것이 아닌가?
@@ -125,6 +124,7 @@ void BT_InsertNode(BTNode** root, int InsertData)
 				Current->left->Data = InsertData;
 				Current->left->left = NULL;
 				Current->left->right = NULL;
+				Current = Current->left;
 			}
 		}
 		else if (InsertData > Current->Data)
@@ -137,11 +137,12 @@ void BT_InsertNode(BTNode** root, int InsertData)
 				Current->right->Data = InsertData;
 				Current->right->left = NULL;
 				Current->right->right = NULL;
+				Current = Current->right;
 			}
 		}
 	}
 }
-
+*/
 
 // 삭제
 // 노드가 child를 갖고있는지를 판단하고 삭제한다.
