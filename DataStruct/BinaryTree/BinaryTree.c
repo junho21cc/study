@@ -13,6 +13,13 @@ BTNode* BT_CreateNode(int Data)
 	return NewNode;
 }
 
+void BT_DestroyNode(BTNode* Node)
+{
+	if (Node)
+	{
+		free(Node);
+	}
+}
 
 // 2021.01.06 버전
 void BT_InsertNode(BTNode** root, int Data)
@@ -187,7 +194,9 @@ BTNode* BT_RemoveNode(BTNode** root, BTNode* TagetNodeParent, int TagetData)
 	}
 	else
 	{
-		// 잎인경우
+		Removed = Taget;
+
+		// child가 0개인경우
 		if (Taget->left == NULL && Taget->right == NULL)
 		{
 			if (TagetNodeParent->left == Taget)
@@ -199,18 +208,36 @@ BTNode* BT_RemoveNode(BTNode** root, BTNode* TagetNodeParent, int TagetData)
 				TagetNodeParent->right = NULL;
 			}
 		}
-		// child가 하나인 경우
+		// child가 1개인 경우
 		else if (Taget->left == NULL || Taget->right == NULL)
 		{
+			BTNode* Temp = NULL;
 
+			if (Taget->left != NULL)
+			{
+				Temp = Taget->left;
+			}
+			else
+			{
+				Temp = Taget->right;
+			}
+
+			if (TagetNodeParent->left == Taget)
+			{
+				TagetNodeParent->left = Temp;
+			}
+			else
+			{
+				TagetNodeParent->right = Temp;
+			}
 		}
-		// child가 두개인 경우
+		// child가 2개인 경우
 		else
 		{
 			BTNode* LeftMaxNode = BT_SearchMaxNode(Taget->left);
-			Removed = BT_RemoveNode((*root), NULL, LeftMaxNode->Data);
+			Removed = BT_RemoveNode(&Taget, NULL, LeftMaxNode->Data);
+			Taget->Data = LeftMaxNode->Data;
 		}
 	}
-
 	return Removed;
 }
