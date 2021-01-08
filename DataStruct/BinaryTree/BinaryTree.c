@@ -148,4 +148,69 @@ void BT_InsertNode(BTNode** root, int InsertData)
 // 노드가 child를 갖고있는지를 판단하고 삭제한다.
 // child가 없다면 그냥 삭제
 // child가 1개 있다면 child의 subtree를 올려준다.
-// child가 2개 있다면 left child의 최대값 또는 right child의 최솟값을 올려준다. 
+// child가 2개 있다면 left child의 최대값 (또는 right child의 최솟값) 을 올려준다. 
+
+// 2021.01.08
+BTNode* BT_SearchMaxNode(BTNode* root)
+{
+	if (root == NULL)
+	{
+		return NULL;
+	}
+	if (root->right == NULL)
+	{
+		return root;
+	}
+	else
+	{
+		return BT_SearchMaxNode(root->right);
+	}
+}
+
+BTNode* BT_RemoveNode(BTNode** root, BTNode* TagetNodeParent, int TagetData)
+{
+	BTNode* Taget = (*root);
+	BTNode* Removed;
+
+	if ((*root) == NULL)
+	{
+		return NULL;
+	}
+
+	if (Taget->Data > TagetData)
+	{
+		Removed = BT_RemoveNode(&(Taget->left), Taget, TagetData);
+	}
+	else if (Taget->Data < TagetData)
+	{
+		Removed = BT_RemoveNode(&(Taget->right), Taget, TagetData);
+	}
+	else
+	{
+		// 잎인경우
+		if (Taget->left == NULL && Taget->right == NULL)
+		{
+			if (TagetNodeParent->left == Taget)
+			{
+				TagetNodeParent->left = NULL;
+			}
+			else
+			{
+				TagetNodeParent->right = NULL;
+			}
+		}
+		// child가 하나인 경우
+		else if (Taget->left == NULL || Taget->right == NULL)
+		{
+
+		}
+		// child가 두개인 경우
+		else
+		{
+			BTNode* LeftMaxNode = BT_SearchMaxNode(Taget->left);
+			Removed = BT_RemoveNode((*root), NULL, LeftMaxNode->Data);
+		}
+	}
+
+	return Removed;
+}
