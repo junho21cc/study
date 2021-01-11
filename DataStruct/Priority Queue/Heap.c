@@ -53,3 +53,84 @@ void Heap_SwapNodes(Heap* H, int Index1, int Index2)
 	
 	free(Temp);
 }
+
+void Heap_DeletMin(Heap* H, HeapNode* Root)
+{
+	int ParentIndex = 0;
+	int LeftIndex = 0;
+	int RightIndex = 0;
+
+	memecpy(Root, &H->Nodes[0], sizeof(HeapNode));
+	memeset(&H->Nodes[0], 0, sizeof(HeapNode));
+
+	H->UsedSize--;
+	Heap_SwapNodes(H, 0, H->UsedSize);
+
+	LeftIndex = Heap_GetLeftChild(0);
+	RightIndex = LeftIndex + 1;
+
+	while (1)
+	{
+		int SelectedChild = 0;
+
+		if (LeftIndex >= H->UsedSize)
+		{
+			break;
+		}
+
+		if (RightIndex >= H->UsedSize)
+		{
+			SelectedChild = LeftIndex;
+		}
+		else
+		{
+			if (H->Nodes[LeftIndex].Data > H->Nodes[RightIndex].Data)
+			{
+				SelectedChild = RightIndex;
+			}
+			else
+			{
+				SelectedChild = LeftIndex;
+			}
+		}
+
+		if (H->Nodes[SelectedChild].Data < H->Nodes[ParentIndex].Data)
+		{
+			Heap_SwapNodes(H, ParentIndex, SelectedChild);
+			ParentIndex = SelectedChild;
+		}
+		else
+		{
+			break;
+		}
+
+		LeftIndex = Heap_GetLeftChild(ParentIndex);
+		RightIndex = LeftIndex + 1;
+	}
+
+	if (H->UsedSize < (H->Capacity / 2))
+	{
+		H->Capacity /= 2;
+		H->Nodes = (HeapNode*)realloc(H->Nodes, sizeof(HeapNode) * H->Capacity);
+	}
+}
+
+int Heap_GetParent(int Index)
+{
+	return (int)((Index - 1) / 2);
+}
+
+int Heap_GetLeftChild(int Index)
+{
+	return (2 * Index) + 1;
+}
+
+void Heap_PrintNodes(Heap* H)
+{
+	for (int i = 0; i < H->UsedSize; i++)
+	{
+		printf("%d  ", H->Nodes[i].Data);
+	}
+	printf("\n");
+}
+
