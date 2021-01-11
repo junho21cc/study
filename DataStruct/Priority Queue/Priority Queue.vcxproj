@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Heap.c" />
     <ClCompile Include="PriorityQueue.c" />
+    <ClCompile Include="Test_Heap.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Heap.h" />

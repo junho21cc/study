@@ -1,0 +1,33 @@
+힙의 연산
+
+추가
+최대 힙에 새로운 원소(노드)를 추가 // 완전이진트리라는 조건
+1. 원소를 힙의 마지막위치에 삽입
+2. 힙화(Heapify)를 통해서 새로운 원소가 삽입된 힙을 재구성
+
+// ex) 최대힙, 바텀업
+추가된 Node는 ChildNode다.
+
+void HeapifyBottomUp(Heap* H->UsedSize)
+{
+	int Child_Index = H->UsedSize;
+	int Parent_Index = Child_Index /= 2;
+	while(H->Nodes[Child_Index].Data > H->Nodes[Parent_Index].Data)
+	{
+		SwapNodes(&H->Nodes[Child_Index], &H->Nodes[Parent_Index]);
+		Child_Index /= 2;
+		Parent_Index /= 2;
+	}
+}
+
+제거
+최대 힙에서 Root Node 제거 or Top을 제거
+(완전이진트리이기 때문에) 마지막노드 제거
+
+1. Root Node에 저장된 값을 제거
+2. 힙의 마지막 노드에 저장된 값을 루트 노드로 옮기고 옮긴 노드를 제거
+3. 루트 노드로부터 하향식 힙 재구성 수행
+
+힙에서는 내가 제거할 원소를 지정하지 않는다
+단지 루트 노드에 있는 값 또는 리프노드에 있는값을 제거한다.
+

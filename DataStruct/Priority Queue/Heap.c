@@ -54,14 +54,14 @@ void Heap_SwapNodes(Heap* H, int Index1, int Index2)
 	free(Temp);
 }
 
-void Heap_DeletMin(Heap* H, HeapNode* Root)
+void Heap_DeleteMin(Heap* H, HeapNode* Root)
 {
 	int ParentIndex = 0;
 	int LeftIndex = 0;
 	int RightIndex = 0;
 
-	memecpy(Root, &H->Nodes[0], sizeof(HeapNode));
-	memeset(&H->Nodes[0], 0, sizeof(HeapNode));
+	memcpy(Root, &H->Nodes[0], sizeof(HeapNode));
+	memset(&H->Nodes[0], 0, sizeof(HeapNode));
 
 	H->UsedSize--;
 	Heap_SwapNodes(H, 0, H->UsedSize);
