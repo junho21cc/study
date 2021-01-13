@@ -3,24 +3,20 @@
 HashTable* HT_CreateHashTable(int TableSize)
 {
 	HashTable* HT = (HashTable*)malloc(sizeof(HashTable));
-	HT->Table = (List*)malloc(sizeof(List) * TableSize);
+	HT->Table = (Node**)malloc(sizeof(Node*) * TableSize);
 
-	memset(HT->Table, 0, sizeof(List) * TableSize);
+	memset(HT->Table, 0, sizeof(Node*) * TableSize);
 
 	HT->TableSize = TableSize;
 
 	return HT;
 }
 
-Node* HT_CreateNode(int Key, int Value)
+Node* HT_CreateNode(int Data)
 {
 	Node* NewNode = (Node*)malloc(sizeof(Node));
 
-	NewNode->Key = (char*)malloc(sizeof(char) * (strlen(Key) + 1));
-	strcpy(NewNode->Key, Key);
-
-	NewNode->Value = (char*)malloc(sizeof(char) * (strlen(Value) + 1));
-	strcpy(NewNode->Value, Value);
+	NewNode->Data = Data;
 	NewNode->Next = NULL;
 
 	return NewNode;
@@ -28,8 +24,6 @@ Node* HT_CreateNode(int Key, int Value)
 
 void HT_DestroyNode(Node* TheNode)
 {
-	free(TheNode->Key);
-	free(TheNode->Value);
 	free(TheNode);
 }
 
@@ -44,7 +38,7 @@ void HT_Set(HashTable* HT, int Key, int Value)
 	}
 	else
 	{
-		List L = HT->Table[Address];
+		Node** L = HT->Table[Address];
 		NewNode->Next = L;
 		HT->Table[Address] = NewNode;
 

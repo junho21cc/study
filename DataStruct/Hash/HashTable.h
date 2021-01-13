@@ -5,18 +5,14 @@
 
 typedef struct tagNode
 {
-	int Key;
-	int Value;
-
+	int Data;
 	struct tageNode* Next;
 } Node;
-
-typedef Node* List;
 
 typedef struct tagHashTable
 {
 	int TableSize;
-	List* Table;
+	Node** Table;
 } HashTable;
 
 HashTable* HT_CreateHashTable(int TableSize);
