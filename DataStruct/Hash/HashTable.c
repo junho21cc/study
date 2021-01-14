@@ -3,13 +3,26 @@
 HashTable* HT_CreateHashTable(int TableSize)
 {
 	HashTable* HT = (HashTable*)malloc(sizeof(HashTable));
-	HT->Table = (Node**)malloc(sizeof(Node*) * TableSize);
+	HT->Table = (Node*)malloc(sizeof(Node*) * TableSize);
 
 	memset(HT->Table, 0, sizeof(Node*) * TableSize);
 
 	HT->TableSize = TableSize;
 
 	return HT;
+}
+
+void HT_DestroyHashTable(HashTable* HT)
+{
+	for (int i = 0; i < HT->TableSize; i++)
+	{
+		Node* L = HT->Table[i];
+
+		HT_DestroyList(L);
+	}
+
+	free(HT->Table);
+	free(HT);
 }
 
 Node* HT_CreateNode(int Data)
@@ -27,10 +40,10 @@ void HT_DestroyNode(Node* TheNode)
 	free(TheNode);
 }
 
-void HT_Set(HashTable* HT, int Key, int Value)
+void HT_Set(HashTable* HT, int Data)
 {
-	int Address = HT_Hash(Key, strlen(Key), HT->TableSize);
-	Node* NewNode = HT_CreateNode(Key, Value);
+	int Address = HT_Hash(Data, HT->TableSize);
+	Node* NewNode = HT_CreateNode(Data);
 
 	if (HT->Table[Address] == NULL)
 	{
@@ -38,20 +51,20 @@ void HT_Set(HashTable* HT, int Key, int Value)
 	}
 	else
 	{
-		Node** L = HT->Table[Address];
+		Node* L = HT->Table[Address];
 		NewNode->Next = L;
 		HT->Table[Address] = NewNode;
 
-		printf("Collision occured : Key(%s), Address(%d)\n", Key, Address);
+		printf("Collision occured : Data(%d), Address(%d)\n", Data, Address);
 	}
 }
 
-int HT_Get(HashTable* HT, int Key)
+int HT_Get(HashTable* HT, int Data)
 {
-	int Address = HT_Hash(Key, strlen(Key), HT->TableSize);
+	int Address = HT_Hash(Data, HT->TableSize);
 
-	List TheList = HT->Table[Address];
-	List Target = NULL;
+	Node* TheList = HT->Table[Address];
+	Node* Target = NULL;
 
 	if (TheList == NULL)
 	{
@@ -60,13 +73,13 @@ int HT_Get(HashTable* HT, int Key)
 
 	while (1)
 	{
-		if (strcmp(TheList->Key, Key) == 0)
+		if (TheList->Data == Data)
 		{
 			Target = TheList;
 			break;
 		}
 
-		if (TheList->Next == NULL)
+		if (TheList->Next == NULL) 
 		{
 			return NULL;
 		}
@@ -74,12 +87,11 @@ int HT_Get(HashTable* HT, int Key)
 		{
 			TheList = TheList->Next;
 		}
-
-		return Target->Value;
 	}
+	return Target->Data;
 }
 
-void HT_DestroyList(List L)
+void HT_DestroyList(Node* L)
 {
 	if (L == NULL)
 	{
@@ -94,29 +106,11 @@ void HT_DestroyList(List L)
 	HT_DestroyNode(L);
 }
 
-void HT_DestroyHashTable(HashTable* HT)
+
+
+int HT_Hash(int Data, int TableSize)
 {
-	for (int i = 0; i < HT->TableSize; i++)
-	{
-		List L = HT->Table[i];
+	int Hash_Index = Data % TableSize;
 
-		HT_DestroyList(L);
-	}
-
-	free(HT->Table);
-	free(HT);
-}
-
-int HT_Hash(int Key, int KeyLength, int TableSize)
-{
-	int HashValue = 0;
-
-	for (int i = 0; i < KeyLength; i++)
-	{
-		HashValue = (HashValue << 3) + Key[i];
-	}
-
-	HashValue = HashValue % TableSize;
-
-	return HashValue;
+	return Hash_Index;
 }
