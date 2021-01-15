@@ -25,7 +25,7 @@ void HT_DestroyHashTable(HashTable* HT)
 	free(HT);
 }
 
-Node* HT_CreateNode(int Data)
+Node* HT_CreateNode(char* Data)
 {
 	Node* NewNode = (Node*)malloc(sizeof(Node));
 
@@ -40,7 +40,7 @@ void HT_DestroyNode(Node* TheNode)
 	free(TheNode);
 }
 
-void HT_Set(HashTable* HT, int Data)
+void HT_Set(HashTable* HT, char* Data)
 {
 	int Address = HT_Hash(Data, HT->TableSize);
 	Node* NewNode = HT_CreateNode(Data);
@@ -55,11 +55,11 @@ void HT_Set(HashTable* HT, int Data)
 		NewNode->Next = L;
 		HT->Table[Address] = NewNode;
 
-		printf("Collision occured : Data(%d), Address(%d)\n", Data, Address);
+		printf("Collision occured : Data(%s), Address(%d)\n", Data, Address);
 	}
 }
 
-int HT_Get(HashTable* HT, int Data)
+char* HT_Get(HashTable* HT, char* Data)
 {
 	int Address = HT_Hash(Data, HT->TableSize);
 
@@ -108,9 +108,15 @@ void HT_DestroyList(Node* L)
 
 
 
-int HT_Hash(int Data, int TableSize)
+int HT_Hash(char* Data, int TableSize)
 {
-	int Hash_Index = Data % TableSize;
+	int Hash_Index = 0;
+
+	for (int i = 0; i < strlen(Data); i++)
+	{
+		Hash_Index += Data[i];
+	}
+	Hash_Index = Hash_Index % TableSize;
 
 	return Hash_Index;
 }
