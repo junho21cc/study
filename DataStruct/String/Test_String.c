@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "String.h"
 
 int main()
 {
@@ -12,9 +13,10 @@ int main()
 	int num[] = { 1, 2, 3 };
 
 	char* str3 = "GHIKKE";
-	printf("str2: %s\n", strcpy(str2, str3));
+	printf("str2: %s\n", StrCpy(str2, str3));
 	
-
+	printf("Compute: %d\n", StrCmp(str1, str3));
+	printf("Reverse str1: %d\n", StrReverse(str1));
 
 	printf("str1: %s\n", str1);
 	printf("str2: %s\n", str2);
