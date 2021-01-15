@@ -16,7 +16,7 @@ int main()
 	printf("str2: %s\n", StrCpy(str2, str3));
 	
 	printf("Compute: %d\n", StrCmp(str1, str3));
-	printf("Reverse str1: %d\n", StrReverse(str1));
+	printf("Reverse str2: %s\n", StrReverse(str2));
 
 	printf("str1: %s\n", str1);
 	printf("str2: %s\n", str2);

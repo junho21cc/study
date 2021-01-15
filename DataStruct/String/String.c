@@ -28,16 +28,16 @@ int StrCmp(char* str1, char* str2)
 	}
 }
 
-char* StrReverse(char* string)
+char* StrReverse(char* str)
 {
-	int size = strlen(string);
+	int size = strlen(str);
 	char temp;
 
-	for (int i = 0; i < size; i++) 
+	for (int i = 0; i < size / 2; i++)
 	{
-		temp = string[i];
-		string[i] = string[(size - 1) - i];
-		string[(size - 1) - i] = temp;
+		temp = str[i];
+		str[i] = str[(size - 1) - i];
+		str[(size - 1) - i] = temp;
 	}
-	return string;
+	return str;
 }
