@@ -15,6 +15,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hash", "Hash\Hash.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "String", "String\String.vcxproj", "{461AB3E0-B6B6-4077-9078-D5A66431CEC4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graph", "Graph\Graph.vcxproj", "{EB1F1155-B1CC-4587-9B98-006FA23843A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{94F35E48-89A2-4E4F-8C54-9EAC11E0B479}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +78,14 @@ Global
 		{461AB3E0-B6B6-4077-9078-D5A66431CEC4}.Release|x64.Build.0 = Release|x64
 		{461AB3E0-B6B6-4077-9078-D5A66431CEC4}.Release|x86.ActiveCfg = Release|Win32
 		{461AB3E0-B6B6-4077-9078-D5A66431CEC4}.Release|x86.Build.0 = Release|Win32
+		{EB1F1155-B1CC-4587-9B98-006FA23843A6}.Debug|x64.ActiveCfg = Debug|x64
+		{EB1F1155-B1CC-4587-9B98-006FA23843A6}.Debug|x64.Build.0 = Debug|x64
+		{EB1F1155-B1CC-4587-9B98-006FA23843A6}.Debug|x86.ActiveCfg = Debug|Win32
+		{EB1F1155-B1CC-4587-9B98-006FA23843A6}.Debug|x86.Build.0 = Debug|Win32
+		{EB1F1155-B1CC-4587-9B98-006FA23843A6}.Release|x64.ActiveCfg = Release|x64
+		{EB1F1155-B1CC-4587-9B98-006FA23843A6}.Release|x64.Build.0 = Release|x64
+		{EB1F1155-B1CC-4587-9B98-006FA23843A6}.Release|x86.ActiveCfg = Release|Win32
+		{EB1F1155-B1CC-4587-9B98-006FA23843A6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
