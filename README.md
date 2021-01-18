@@ -5,7 +5,7 @@
 * [Single Linked List](DataStruct/SingleLinkedList/)
 * [Double Linked List](DataStruct/DoubleLinkedList/)
 * [Binary Tree](DataStruct/BinaryTree/)
-* [Priority Queue](DataStruct/PriorityQeue/)
+* [Priority Queue](DataStruct/PriorityQueue/)
 * [Hash](DataStruct/Hash/)
 * [String](DataStruct/String/)
 
