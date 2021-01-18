@@ -2,10 +2,10 @@
 내가 공부하는 내용 정리
 
 ## [Datastructure](DataStruct/)
-* Linked List
-* Double Linked List
-* Binary Tree
-* Priority Queue
+* [Linked List](SingleLinkedList/)
+* [Double Linked List](DoubleLinkedList/)
+* [Binary Tree](BinaryTree/)
+* [Priority Queue](PriorityQeue/)
 
 
 ## C 문법
