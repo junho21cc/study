@@ -6,6 +6,8 @@
 * [Double Linked List](DataStruct/DoubleLinkedList/)
 * [Binary Tree](DataStruct/BinaryTree/)
 * [Priority Queue](DataStruct/PriorityQeue/)
+* [Hash](DataStruct/Hash/)
+* [String](DataStruct/String/)
 
 
 ## [C ¹®¹ý](C_Grammar/)
