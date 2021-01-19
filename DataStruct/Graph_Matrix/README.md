@@ -96,8 +96,8 @@ vertex에 연결된 edge의 수
     n개의 연결 리스트
 
 ## 그래프의 연산
-    1. DFS
-    2. BFS
+    1. DFS: 깊이우선탐색
+    2. BFS: 너비우선 탐색
     3. Greedy 
 
 ## 그래프의 시각화
@@ -106,6 +106,4 @@ vertex에 연결된 edge의 수
 
 * 내가 만든 방향성이 있는 그래프: [그래프](https://bit.ly/3sB0vTF)
 * 내가 만든 방향성이 없는 그래프: [그래프](https://bit.ly/39I3hOn)
-
-
 
