@@ -5,20 +5,20 @@ typedef enum { UNDIRECTED = 0, DIRECTED = 1 } GraphType;
 typedef struct tagNode
 {
 	int destination;
-	Node* next;
-}Node;
+	struct tagNode* next;
+} Node;
 
 typedef struct tagHeadNode 
 {
 	Node* head;
-}HeadNode;
+} HeadNode;
 
 typedef struct tagGraph
 {
 	int nodeSize;
 	GraphType mode;
 	HeadNode* list;
-}Graph;
+} Graph;
 
 void Graph_vizDriver(Graph* g);
 void Graph_vizPrint(Graph* g);

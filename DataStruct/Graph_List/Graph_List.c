@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "Graph_List.h"
 
 void Graph_vizPrint(Graph* g)
@@ -42,7 +43,7 @@ Graph* Graph_Create(int nodeSize, GraphType mode)
 	Graph* g = (Graph*)malloc(sizeof(Graph));
 	g->nodeSize = nodeSize;
 	g->mode = mode;
-	g->list = (Node**)malloc(sizeof(Node*));
+	g->list = (HeadNode*)malloc(sizeof(HeadNode));
 
 	for (int i = 0; i < nodeSize; i++)
 	{

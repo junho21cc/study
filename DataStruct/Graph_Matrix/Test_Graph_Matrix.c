@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "Graph_Matrix.h"
 
 int main()

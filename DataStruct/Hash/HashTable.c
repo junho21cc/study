@@ -3,9 +3,9 @@
 HashTable* HT_CreateHashTable(int TableSize)
 {
 	HashTable* HT = (HashTable*)malloc(sizeof(HashTable));
-	HT->Table = (Node*)malloc(sizeof(Node*) * TableSize);
+	HT->Table = (Node*)malloc(sizeof(Node) * TableSize);
 
-	memset(HT->Table, 0, sizeof(Node*) * TableSize);
+	memset(HT->Table, 0, sizeof(Node) * TableSize);
 
 	HT->TableSize = TableSize;
 
@@ -112,7 +112,7 @@ int HT_Hash(char* Data, int TableSize)
 {
 	int Hash_Index = 0;
 
-	for (int i = 0; i < strlen(Data); i++)
+	for (size_t i = 0; i < strlen(Data); i++)
 	{
 		Hash_Index += Data[i];
 	}
