@@ -21,6 +21,9 @@
     <ClCompile Include="Test_Graph_Matrix.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Graph_Matrix_DFS.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph_Matrix.h">
