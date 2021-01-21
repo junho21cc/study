@@ -3,9 +3,9 @@
 HashTable* HT_CreateHashTable(int TableSize)
 {
 	HashTable* HT = (HashTable*)malloc(sizeof(HashTable));
-	HT->Table = (Node*)malloc(sizeof(Node) * TableSize);
+	HT->Table = (Node**)malloc(sizeof(Node*) * TableSize);
 
-	memset(HT->Table, 0, sizeof(Node) * TableSize);
+	memset(HT->Table, 0, sizeof(Node*) * TableSize);
 
 	HT->TableSize = TableSize;
 

@@ -1,51 +1,28 @@
 #include "Graph_Matrix.h"
 #include "Queue.h"
 
-void init(Queue* q)
-{
-	q->front = q->rear = -1;
-	q->size = 0;
-}
 
-bool isFull(Queue* q)
-{
-	return (q->rear == MAX_NODE - 1);
-}
-
-bool isEmpty(Queue* q)
-{
-	return (q->front == q->rear);
-}
-
-void enQueue(Queue* q, int data)
-{
-	if (isFull(q))
-	{
-		printf("Error: Queue Full\n");
-		exit(1);
-	}
-	q->rear = (q->rear + 1);
-	//q->rear++;
-	q->queue[q->rear] = data;
-	q->size++;
-}
-
-void enQueue(Queue* q, int data)
-{
-	if (isFull(q))
-	{
-		printf("Error: Queue Full\n");
-		exit(1);
-	}
-	q->rear = (q->rear - 1);
-	//q->rear--;
-	q->queue[q->rear] = data;
-	q->size--;
-}
-
-void BFS(Graph* g, bool visited[], int start)
+void Graph_BFS(Graph* g, bool visited[], int start)
 {
 	Queue q;
 	init(&q);
 	
+	enQueue(&q, start);
+	visited[start] = true;
+	printf("%d ", start);
+
+	while (!isEmpty(&q))
+	{
+		int from = deQueue(&q);
+
+		for (int to = 0; to < MAX_NODE; to++)
+		{
+			if (g->adjMatrix[from][to] && !visited[to])
+			{
+				enQueue(&q, to);
+				visited[to] = true;
+				printf("%d ", to);
+			}
+		}
+	}
 }

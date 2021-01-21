@@ -1,3 +1,4 @@
+#include <string.h>
 #include "String.h"
 
 char* StrCpy(char* dest, char* src)

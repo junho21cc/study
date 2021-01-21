@@ -143,10 +143,13 @@
     <ClCompile Include="Graph_Matrix.c" />
     <ClCompile Include="Graph_Matrix_BFS.c" />
     <ClCompile Include="Graph_Matrix_DFS.c" />
+    <ClCompile Include="Queue.c" />
     <ClCompile Include="Test_Graph_Matrix.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph_Matrix.h" />
+    <ClInclude Include="Graph_Matrix_BFS.h" />
+    <ClInclude Include="Graph_Matrix_DFS.h" />
     <ClInclude Include="Queue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

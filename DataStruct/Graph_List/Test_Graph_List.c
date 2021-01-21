@@ -19,6 +19,9 @@ int main()
 	Graph_vizDriver(g);
 	Graph_Destroy(g);
 
+	g = Graph_Create(5, DIRECTED);
+
+
 	Graph_InsertEdge(g, 0, 1);
 	Graph_InsertEdge(g, 0, 2);
 	Graph_InsertEdge(g, 0, 3);

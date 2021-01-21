@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "Graph_Matrix.h"
 
 void Graph_DFS(const Graph* g, bool visited[], int start)
@@ -8,7 +9,7 @@ void Graph_DFS(const Graph* g, bool visited[], int start)
 	{
 		if (g->adjMatrix[start][v] && !visited[v])
 		{
-			DFS(g, visited, v);
+			Graph_DFS(g, visited, v);
 		}
 	}
 }

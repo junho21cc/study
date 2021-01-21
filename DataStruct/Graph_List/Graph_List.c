@@ -43,7 +43,7 @@ Graph* Graph_Create(int nodeSize, GraphType mode)
 	Graph* g = (Graph*)malloc(sizeof(Graph));
 	g->nodeSize = nodeSize;
 	g->mode = mode;
-	g->list = (HeadNode*)malloc(sizeof(HeadNode));
+	g->list = (HeadNode*)malloc(sizeof(HeadNode) * nodeSize);
 
 	for (int i = 0; i < nodeSize; i++)
 	{
