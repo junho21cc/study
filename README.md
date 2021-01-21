@@ -11,7 +11,7 @@
 * [Graph_Matrix](DataStruct/Graph_Matrix/)
 * [Graph_List](DataStruct/Graph_List_)
 
-## [C 문법](C_Grammar/)
+## [C 문법](C_grammar/)
 * enum
 
 ## 관련 지식
