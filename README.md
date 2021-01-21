@@ -8,7 +8,8 @@
 * [Priority Queue](DataStruct/PriorityQueue/)
 * [Hash](DataStruct/Hash/)
 * [String](DataStruct/String/)
-* [Graph](DataStruct/Graph/)
+* [Graph_Matrix](DataStruct/Graph_Matrix/)
+* [Graph_List](DataStruct/Graph_List_)
 
 ## [C ¹®¹ý](C_Grammar/)
 * enum
