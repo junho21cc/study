@@ -9,10 +9,11 @@
 * [Hash](DataStruct/Hash/)
 * [String](DataStruct/String/)
 * [Graph_Matrix](DataStruct/Graph_Matrix/)
-* [Graph_List](DataStruct/Graph_List_)
+* [Graph_List](DataStruct/Graph_List/)
 
 ## [C 문법](C_grammar/)
-* enum
+* [enum](C_grammar/enum/)
+* [exit](C_grammar/exit/)
 
 ## 관련 지식
 * markdown
