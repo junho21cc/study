@@ -31,4 +31,17 @@ selct 태그
 
 <input type="number" min="숫자" max="숫자">: 숫자를 입력할수 있는 창 표시
 
+<input>에 type 정리
+submit
+reset
+checkbox
+password
+color
+data
+file
+number
+readio: checkbox형식이지만 한개만 선택 가능
+action: 서버로 전송가능하게 하는 속성
+
+
 
