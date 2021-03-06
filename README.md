@@ -12,8 +12,8 @@
 * [Graph_List](DataStruct/Graph_List/)
 
 ## [C 문법](C_grammar/)
-* [enum](C_grammar/enum/)
-* [exit](C_grammar/exit/)
+* [enum](C_grammar/enum.md/)
+* [exit](C_grammar/exit.md/)
 
 ## 관련 지식
 * markdown
