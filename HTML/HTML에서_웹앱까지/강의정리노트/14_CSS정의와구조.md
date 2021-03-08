@@ -11,7 +11,7 @@
 
 스타일 시트 정의 문법 종류
 
-CSS(Cascadion Style Sheet)
+CSS(Cascading Style Sheet)
 스타일 속성, 속성값으로 스타일 제어
 <style type="text/css">(CSS가 표준이여서 <style>만 사용가능)
 
