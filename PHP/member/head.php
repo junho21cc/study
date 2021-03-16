@@ -8,6 +8,16 @@
         <title>
             회원관리
         </title>
+       <style>
+           table{
+            border-collapse: collapse;
+           }
+           th, td{
+               font-size: 20px;
+               text-align:center;
+               border: 1px solid black;
+           }
+        </style>
     </head>
 
 <body>
