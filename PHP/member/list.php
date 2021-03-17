@@ -12,18 +12,27 @@ echo("<table>
     <td>Phone</td>
     <td>Gender</td>
     <td>Age</td>
-</tr>");
- while($info=mysqli_fetch_array($result)){
+    <td></td>
+    <td></td>
+</tr>
+");
+
+while($info=mysqli_fetch_array($result)){
 
     echo(
-    "<tr><td>".$info[0]."</td>".
-    "<td>".$info[1]."</td>".
-    "<td>".$info[2]."</td>".
-    "<td>".$info[3]."</td>".
-    "<td>".$info[4]."</td>
+    "<tr>
+    <td>".$info[0]."</td>
+    <td>".$info[1]."</td>
+    <td>".$info[2]."</td>
+    <td>".$info[3]."</td>
+    <td>".$info[4]."</td>
+    <td><a href="."update.php".">수정</a></td>
+    <td><a href="."delete.php".">삭제</a></td>
     </tr>");
 }
-echo("</table>");
+
+echo("
+</table>");
 
 mysqli_close($connect);
 

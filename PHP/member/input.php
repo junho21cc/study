@@ -2,14 +2,14 @@
 include('head.php');
 include('common.php');
 
-$result = mysqli_query($connect, $sql);
-
 $name = $_GET['name'];
 $phone = $_GET['phone'];
 $gender = $_GET['gender'];
 $age = $_GET['age'];
 
 $sql = "INSERT INTO member(name, phone, gender, age) VALUES ('$name', '$phone', '$gender', $age)";
+
+$result = mysqli_query($connect, $sql);
 
 echo("이름: ".$_GET['name']."<br>");
 echo("전화번호: ".$_GET['phone']."<br>");
