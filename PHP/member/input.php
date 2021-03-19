@@ -11,10 +11,10 @@ $sql = "INSERT INTO member(name, phone, gender, age) VALUES ('$name', '$phone', 
 
 $result = mysqli_query($connect, $sql);
 
-echo("이름: ".$_GET['name']."<br>");
-echo("전화번호: ".$_GET['phone']."<br>");
-echo("성별: ".$_GET['gender']."<br>");
-echo("나이: ".$_GET['age']."<br>");
+echo("이름: ".$name."<br>");
+echo("전화번호: ".$phone."<br>");
+echo("성별: ".$gender."<br>");
+echo("나이: ".$age."<br>");
 
 echo($sql);
 print_r("result: [" . $result . "]");

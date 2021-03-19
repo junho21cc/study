@@ -1,5 +1,5 @@
 # study
-³»°¡ °øºÎÇÏ´Â ³»¿ë Á¤¸®
+ë‚´ê°€ ê³µë¶€í•˜ëŠ” ë‚´ìš© ì •ë¦¬
 
 ## [Datastructure](DataStruct/)
 * [Single Linked List](DataStruct/SingleLinkedList/)
@@ -11,14 +11,14 @@
 * [Graph_Matrix](DataStruct/Graph_Matrix/)
 * [Graph_List](DataStruct/Graph_List/)
 
-## [C ¹®¹ı](C_grammar/)
+## [C ë¬¸ë²•](C_grammar/)
 * [enum](C_grammar/enum.md/)
 * [exit](C_grammar/exit.md/)
 
-## °ü·Ã Áö½Ä
+## ê´€ë ¨ ì§€ì‹
 * markdown
 
 
-## °ü·Ã ¿µ¾î
+## ê´€ë ¨ ì˜ì–´
 * matrix
 * enumerate
