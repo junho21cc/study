@@ -21,4 +21,6 @@ echo("나이: ".$_GET['age']."<br>");
  $result = mysqli_query($connect, $sql);
  print_r("result: [" . $result . "]");
 
+header('Location: http://www.junho.ml/member/list.php');
+
 include('foot.php');

@@ -1,4 +1,2 @@
 <?php
-include('head.php');
-
-include('foot.php');
+header('Location:list.php');

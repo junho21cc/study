@@ -20,4 +20,6 @@ echo($sql);
 print_r("result: [" . $result . "]");
 echo(mysqli_error($connect));
 
+header('Location:list.php');
+
 include('foot.php');
