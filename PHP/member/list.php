@@ -27,7 +27,7 @@ while($info=mysqli_fetch_array($result)){
     <td>".$info[3]."</td>
     <td>".$info[4]."</td>
     <td><a href="."update_form.php?id=".$info[0].">수정</a></td>
-    <td><a href="."delete.php".">삭제</a></td>
+    <td><a href="."delete.php?id=".$info[0].">삭제</a></td>
     </tr>");
 }
 
