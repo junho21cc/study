@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalender</title>
+    <style>
+        #today{
+        color: red;
+        background-color: beige;
+        }
+    </style>
+    <script>
+        document.write("<table>");
+        var c1 = new Date();
+        var year = c1.getFullYear();
+        var month = c1.getMonth();
+        var date = c1.getDate();
+        var day = c1.getDay();
+        var c2 = new Date(c1.getFullYear(), c1.getMonth(), 1);
+        var oneday = c2.getDay();
+        var lastdate = [31, 30, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        if(year%4==0) {
+            lastdate[1] = 29;
+        }
+        for(var i = 1; i <= oneday; i++) {
+            document.write("<td> &nbsp;");
+        }
+        for(var i = oneday; i < lastdate[month] + 1; i++) {
+            if(i%7==0)
+            {
+                document.write("<tr>")
+            }
+            if(i == date)
+            {
+                document.write("<td id='today'>" + i);
+                continue;
+            }
+            document.write("<td>" + i);
+        }
+        document.write("</table>");
+    </script>
+</head>
+<body>
+    <input type='text' value='year'>
+</body>
+</html>
