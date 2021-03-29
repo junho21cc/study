@@ -13,42 +13,63 @@
             border-width: 5px;
         }
         tr, td{
+            border-style: solid;
             font-size: 50px;
         }
     </style>
     <script>
-        document.write("<table>");
-        var c1 = new Date();
-        var year = c1.getFullYear();
-        var month = c1.getMonth();
-        var date = c1.getDate();
-        var day = c1.getDay();
-        var c2 = new Date(c1.getFullYear(), c1.getMonth(), 1);
-        var oneday = c2.getDay();
-        var lastdate = [31, 30, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        function buildCalendar(y, m) {
+            var ret = "";
 
-        if(year%4==0) {
-            lastdate[1] = 29;
-        }
-        for(var i = 1; i <= oneday; i++) {
-            document.write("<td> &nbsp;");
-        }
-        for(var i = oneday; i < lastdate[month] + 1; i++) {
-            if(i%7==0)
-            {
-                document.write("<tr>")
+            ret += "<table>";
+            var c1 = new Date(y, m - 1);
+            var year = c1.getFullYear();
+            var month = c1.getMonth();
+            var date;
+            var c2 = new Date(y, m - 1, 1);
+
+            var lastdate = [31, 30, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+            if (year % 4 == 0) {
+                lastdate[1] = 29;
             }
-            if(i == date)
-            {
-                document.write("<td id='today'>" + i);
-                continue;
+            for (var i = 0; i < c2.getDay(); i++) {
+                ret += "<td> &nbsp;";
             }
-            document.write("<td>" + i);
+            for (var i = 1; i < lastdate[month] + 1; i++) {
+
+                var today = new Date();
+                if (i == today.getDate() && y==today.getFullYear() && m==today.getMonth()) {
+                    ret += "<td id='today'>" + i;
+                    continue;
+                }
+                ret += "<td>";
+                ret += i;
+
+                var today_date = new Date(y, m-1, i).getDay()+1;
+                if (today_date == 7) {
+                    ret += "<tr>";
+                }
+            }
+            ret += "</table>";
+            return ret;
         }
-        document.write("</table>");
+        function displayCalendar() {
+            var cur_year = document.getElementById("cur_year");
+            cur_year.innerText = document.input_form.sel_year.value;
+            var cur_month = document.getElementById("cur_month");
+            cur_month.innerText = document.input_form.sel_month.value;
+            document.getElementById("cal").innerHTML = buildCalendar(document.input_form.sel_year.value, document.input_form.sel_month.value);
+        }
     </script>
 </head>
 <body>
-    <input type='text' value='year'>
+<form name="input_form" action="">
+    <input type='text' value='2021' id="sel_year" name="sel_year" size="4">
+    <input type='text' value='3' id="sel_month" name="sel_month" size="2">
+    <input type="button" value="달력" id="button_calendar" onclick="displayCalendar();"> <br>
+    <static id="cur_year"></static>년 <static id="cur_month"></static>월 <br>
+    <p id="cal"></p>
+</form>
 </body>
 </html>
