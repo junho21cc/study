@@ -9,45 +9,53 @@
         background-color: beige;
         }
         table{
+            width:50%;
+            height: 60%;
             border-style: solid;
             border-width: 5px;
+            text-align: center;
         }
         tr, td{
             border-style: solid;
             font-size: 50px;
+            text-align: center;
         }
     </style>
     <script>
         function buildCalendar(y, m) {
-            var ret = "";
+            let ret = "";
 
             ret += "<table>";
-            var c1 = new Date(y, m - 1);
-            var year = c1.getFullYear();
-            var month = c1.getMonth();
-            var date;
-            var c2 = new Date(y, m - 1, 1);
 
-            var lastdate = [31, 30, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            ret += "<td>일<td>월<td>화<td>수<td>목<td>금<td>토<tr></tr>"
 
-            if (year % 4 == 0) {
+            let c1 = new Date(y, m - 1);
+            let year = c1.getFullYear();
+            let month = c1.getMonth();
+            let today = new Date().getDate();
+            let c2 = new Date(y, m - 1, 1);
+
+            let lastdate = [31, 30, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+            if (year % 4 === 0) {
                 lastdate[1] = 29;
             }
-            for (var i = 0; i < c2.getDay(); i++) {
+            for (let i = 0; i < c2.getDay(); i++) {
                 ret += "<td> &nbsp;";
             }
-            for (var i = 1; i < lastdate[month] + 1; i++) {
-
-                var today = new Date();
-                if (i == today.getDate() && y==today.getFullYear() && m==today.getMonth()) {
+            for (let i = 1; i < lastdate[month] + 1; i++) {
+                let today_year = new Date().getFullYear();
+                if (i === today && today_year === year && m-1==month) {
                     ret += "<td id='today'>" + i;
                     continue;
                 }
-                ret += "<td>";
+                else {
+                    ret += "<td>";
+                }
                 ret += i;
 
-                var today_date = new Date(y, m-1, i).getDay()+1;
-                if (today_date == 7) {
+                let today_date = new Date(y, m-1, i).getDay()+1;
+                if (today_date === 7) {
                     ret += "<tr>";
                 }
             }
@@ -55,9 +63,9 @@
             return ret;
         }
         function displayCalendar() {
-            var cur_year = document.getElementById("cur_year");
+            let cur_year = document.getElementById("cur_year");
             cur_year.innerText = document.input_form.sel_year.value;
-            var cur_month = document.getElementById("cur_month");
+            let cur_month = document.getElementById("cur_month");
             cur_month.innerText = document.input_form.sel_month.value;
             document.getElementById("cal").innerHTML = buildCalendar(document.input_form.sel_year.value, document.input_form.sel_month.value);
         }
@@ -65,10 +73,13 @@
 </head>
 <body>
 <form name="input_form" action="">
+    <label for="sel_year"></label>
     <input type='text' value='2021' id="sel_year" name="sel_year" size="4">
+    <label for="sel_month"></label>
     <input type='text' value='3' id="sel_month" name="sel_month" size="2">
+    <label for="button_calendar"></label>
     <input type="button" value="달력" id="button_calendar" onclick="displayCalendar();"> <br>
-    <static id="cur_year"></static>년 <static id="cur_month"></static>월 <br>
+    <span id="cur_year"></span>년 <span id="cur_month"></span>월 <br>
     <p id="cal"></p>
 </form>
 </body>
