@@ -32,7 +32,7 @@
             let c1 = new Date(y, m - 1);
             let year = c1.getFullYear();
             let month = c1.getMonth();
-            let today = new Date().getDate();
+            let today = new Date();
             let c2 = new Date(y, m - 1, 1);
 
             let lastdate = [31, 30, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -44,8 +44,7 @@
                 ret += "<td> &nbsp;";
             }
             for (let i = 1; i < lastdate[month] + 1; i++) {
-                let today_year = new Date().getFullYear();
-                if (i === today && today_year === year && m-1==month) {
+                if (i === today.getDate() && today.getFullYear() === year && today.getMonth() === month) {
                     ret += "<td id='today'>" + i;
                     continue;
                 }
