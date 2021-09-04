@@ -12,15 +12,6 @@ Exp::Exp(int base, int exponential)
 	}
 }
 
-Exp::Exp(int base)
-{
-	Exp(base, 1);
-}
-Exp::Exp()
-{
-	Exp(1, 1);
-}
-
 int Exp::getValue()
 {
 	return Value;
