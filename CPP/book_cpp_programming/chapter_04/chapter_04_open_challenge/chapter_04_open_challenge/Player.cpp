@@ -19,3 +19,9 @@ void Player::speak()
 {
 
 }
+
+string Player::show_player_name()
+{
+	return name;
+}
+

@@ -8,11 +8,11 @@ using namespace std;
 
 class Player
 {
-public:
+private:
 	string name;
 public:
 	Player();
 	~Player();
 	void set_Player_name(string Name);
-	void speak();
+	string show_player_name();
 };

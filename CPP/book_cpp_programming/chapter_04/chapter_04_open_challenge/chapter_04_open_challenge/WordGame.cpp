@@ -4,8 +4,10 @@
 using namespace std;
 
 WordGame::WordGame()
+    :player_num(0), player(nullptr)
 {
-
+ //   player_num = 0;
+ //   player = nullptr;
 }
 
 WordGame::~WordGame()
@@ -53,13 +55,13 @@ void WordGame::run()
     while (1)
     {
         // 위에 start()에서 사용한 Player class를 재사용하고 싶다.
-        cout << player[i].name << ">>";
+        cout << player[i].show_player_name() << ">>";
         cin >> now_word;
 
         if (is_end_game())
         {
             cout << "끝!" << endl;
-            cout << player[i].name << "이가 졌습니다!";
+            cout << player[i].show_player_name() << "이가 졌습니다!";
             return;
         }
         prev_word = now_word;

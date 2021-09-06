@@ -14,7 +14,6 @@ private:
 	Player* player;
 public:
 	WordGame();
-	WordGame(int num);
 	~WordGame();
 	bool is_end_game();
 	void start();
