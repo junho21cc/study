@@ -7,10 +7,10 @@
 
 #define BOARD_SIZE BOARD_WIDTH * BOARD_HEIGHT
 
-#define UP 72
-#define DOWN 80
-#define LEFT 75
-#define RIGHT 77
+#define UP 119
+#define DOWN 115
+#define LEFT 97
+#define RIGHT 100
 
 using namespace std;
 
@@ -88,6 +88,35 @@ int check_worong_count(int number[])
 	return is_wrong_count;
 }
 
+int wayout(char c, int position)
+{
+	switch (c)
+	{
+	case LEFT:
+		if (position % BOARD_WIDTH == 0)
+			break;
+		position--;
+		break;
+	case RIGHT:
+		if ((position + 1) % BOARD_WIDTH == 0)
+			break;
+		position++;
+		break;
+	case UP:
+		if (position - BOARD_WIDTH < 0)
+			break;
+		position -= BOARD_WIDTH;
+		break;
+	case DOWN:
+		if (position + BOARD_WIDTH > BOARD_SIZE - 1)
+			break;
+		position += BOARD_WIDTH;
+		break;
+	}
+	
+	return position;
+}
+
 int main()
 {
 	// Initialization
@@ -105,45 +134,15 @@ int main()
 	{
 		print_board(number);
 
-		//int c = get_key_input();
-		//move_board(c);
-		//is_end = check_finish();
-		char c = get_key_input();
 		if (_kbhit()) 
 		{       
-			c = _getch();    
-			if (c == -32) 
-			{  
-				c = _getch();
+			int c = get_key_input();
 
-				Before_Position = Now_Position;
+			Before_Position = Now_Position;
 
-				switch (c) 
-				{
-				case LEFT:
-					if (Now_Position % BOARD_WIDTH == 0)
-						break;
-					Now_Position --;
-					break;
-				case RIGHT:
-					if ((Now_Position + 1) % BOARD_WIDTH == 0)
-						break;
-					Now_Position ++;
-					break;
-				case UP:
-					if (Now_Position - BOARD_WIDTH < 0)
-						break;
-					Now_Position -= BOARD_WIDTH;
-					break;
-				case DOWN:
-					if (Now_Position + BOARD_WIDTH > BOARD_SIZE - 1)
-						break;
-					Now_Position += BOARD_WIDTH;
-					break;
-				}
+			Now_Position = wayout(c, Now_Position);
 
-				move_board(number, Before_Position, Now_Position);
-			}
+			move_board(number, Before_Position, Now_Position);
 		}
 
 		is_wrong_count = check_worong_count(number);		
