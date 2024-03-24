@@ -24,7 +24,8 @@ int main()
 			break;
 
 	} while (1);
-	
+
+	int trycount = 0;
 	
 	while(1)
 	{
@@ -35,6 +36,7 @@ int main()
 
 		for (int i = 0; i < 3; i++)
 			cin >> playnum[i];
+		trycount++;
 
 		for (int i = 0; i < 3; i++)
 		{
@@ -52,7 +54,7 @@ int main()
 
 		if (scount == 3)
 		{
-			cout << "끝났습니다" << endl;
+			cout << "끝났습니다. 당신은 " << trycount << "번만에 맞췄습니다." << endl;
 			break;
 		}
 		cout << scount << "s " << bcount << "b " << endl;
