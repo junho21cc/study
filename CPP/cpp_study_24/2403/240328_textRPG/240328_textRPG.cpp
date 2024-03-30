@@ -440,6 +440,11 @@ int main()
 					{
 						system("cls");
 						cout << "*********** 무기상점 ***********" << endl;
+						
+						for (int i = 0; i < STORE_WEAPON_MAX; i++)
+						{
+							cout << 
+						}
 					}
 
 					break;
