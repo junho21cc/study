@@ -59,6 +59,13 @@ enum STORE_MENU
 	SM_BACK
 };
 
+enum EQUIP
+{
+	EQ_WEAPON,
+	EQ_ARMOR,
+	EQ_MAX
+};
+
 struct _tagItem
 {
 	char strName[NAME_SIZE];
@@ -93,6 +100,8 @@ struct _tagPlayer
 	int iMPMax;
 	int iExp;
 	int iLevel;
+	_tagItem tEquip[EQ_MAX];
+	bool bEquip[EQ_MAX];
 	_tagInventory tInventory;
 };
 
@@ -153,7 +162,7 @@ int main()
 			tPlayer.iAttackMin = 5;
 			tPlayer.iAttackMax = 10;
 			tPlayer.iArmorMin = 15;
-			tPlayer.iArmorMin = 20;
+			tPlayer.iArmorMax = 20;
 			tPlayer.iHPMax = 500;
 			tPlayer.iHP = 500;
 			tPlayer.iMPMax = 100;
@@ -164,7 +173,7 @@ int main()
 			tPlayer.iAttackMin = 10;
 			tPlayer.iAttackMax = 15;
 			tPlayer.iArmorMin = 10;
-			tPlayer.iArmorMin = 15;
+			tPlayer.iArmorMax = 15;
 			tPlayer.iHPMax = 400;
 			tPlayer.iHP = 400;
 			tPlayer.iMPMax = 200;
@@ -175,7 +184,7 @@ int main()
 			tPlayer.iAttackMin = 10;
 			tPlayer.iAttackMax = 15;
 			tPlayer.iArmorMin = 5;
-			tPlayer.iArmorMin = 10;
+			tPlayer.iArmorMax = 10;
 			tPlayer.iHPMax = 300;
 			tPlayer.iHP = 300;
 			tPlayer.iMPMax = 300;
@@ -246,6 +255,7 @@ int main()
 	// 목검
 	strcpy_s(tStoreWeapon[0].strName, "목검");
 	strcpy_s(tStoreWeapon[0].strTypeName, "검");
+	tStoreWeapon[0].eType = IT_WEAPON;
 	tStoreWeapon[0].iMin = 5;
 	tStoreWeapon[0].iMax = 10;
 	tStoreWeapon[0].iPrice = 1000;
@@ -254,6 +264,7 @@ int main()
 	// 활
 	strcpy_s(tStoreWeapon[1].strName, "나무활");
 	strcpy_s(tStoreWeapon[1].strTypeName, "활");
+	tStoreWeapon[1].eType = IT_WEAPON;
 	tStoreWeapon[1].iMin = 10;
 	tStoreWeapon[1].iMax = 20;
 	tStoreWeapon[1].iPrice = 1800;
@@ -262,6 +273,7 @@ int main()
 	// 지팡이
 	strcpy_s(tStoreWeapon[2].strName, "나무지팡이");
 	strcpy_s(tStoreWeapon[2].strTypeName, "지팡이");
+	tStoreWeapon[2].eType = IT_WEAPON;
 	tStoreWeapon[2].iMin = 30;
 	tStoreWeapon[2].iMax = 50;
 	tStoreWeapon[2].iPrice = 5000;
@@ -335,21 +347,43 @@ int main()
 					cout << "========== Player ==========" << endl;
 					cout << "이름 : " << tPlayer.strName << "\t직업 : " << tPlayer.strJobName << endl;
 					cout << "레벨 : " << tPlayer.iLevel << "\t경험치 : " << tPlayer.iExp << endl;
-					cout << "공격력 : " << tPlayer.iAttackMin << "-" << tPlayer.iAttackMax
-						<< "\t방어력 : " << tPlayer.iArmorMin << "-" << tPlayer.iArmorMax << endl;
+					if (tPlayer.bEquip[EQ_WEAPON] == true)
+					{
+						cout << "공격력 : " << tPlayer.iAttackMin << "+" << tPlayer.tEquip[EQ_WEAPON].iMin << " - " << tPlayer.iAttackMax << "+" << tPlayer.tEquip[EQ_WEAPON].iMax;
+					}
+					else
+					{
+						cout << "공격력 : " << tPlayer.iAttackMin << " - " << tPlayer.iAttackMax;
+					}
+					if (tPlayer.bEquip[EQ_ARMOR] == true)
+					{
+						cout << "\t방어력 : " << tPlayer.iArmorMin << "+" << tPlayer.tEquip[EQ_ARMOR].iMin << " - " << tPlayer.iArmorMax << "+" << tPlayer.tEquip[EQ_ARMOR].iMax << endl;
+					}
+					else
+					{
+						cout << "\t방어력 : " << tPlayer.iArmorMin << " - " << tPlayer.iArmorMax << endl;
+					}
 					cout << "체력 : " << tPlayer.iHP << "/" << tPlayer.iHPMax
 						<< "\t마나 : " << tPlayer.iMP << "/" << tPlayer.iHPMax << endl;
+					if (tPlayer.bEquip[EQ_WEAPON])
+						cout << "장착무기 : " << tPlayer.tEquip[EQ_WEAPON].strName;
+					else
+						cout << "장착무기 : 없음";
+					if (tPlayer.bEquip[EQ_ARMOR])
+						cout << "장착방어구 : " << tPlayer.tEquip[EQ_ARMOR].strName;
+					else
+						cout << "\t장착방어구 : 없음" << endl;
 					cout << "보유골드 : " << tPlayer.tInventory.iGold << "Gold" << endl;
 
 					cout << "========== Monster ==========" << endl;
 					cout << "이름 : " << tMonster.strName << endl;
 					cout << "레벨 : " << tMonster.iLevel << "\t경험치 : " << tMonster.iExp << endl;
-					cout << "공격력 : " << tMonster.iAttackMin << "-" << tMonster.iAttackMax
-						<< "\t방어력 : " << tMonster.iArmorMin << "-" << tMonster.iArmorMax << endl;
+					cout << "공격력 : " << tMonster.iAttackMin << " - " << tMonster.iAttackMax
+						<< "\t방어력 : " << tMonster.iArmorMin << " - " << tMonster.iArmorMax << endl;
 					cout << "체력 : " << tMonster.iHP << "/" << tMonster.iHPMax
 						<< "\t마나 : " << tMonster.iMP << "/" << tMonster.iHPMax << endl;
 					cout << "획득경험치 : " << tMonster.iExp << endl;
-					cout << "획득골드 : " << tMonster.iGoldMin << "-" << tMonster.iGoldMax << endl << endl;
+					cout << "획득골드 : " << tMonster.iGoldMin << " - " << tMonster.iGoldMax << endl << endl;
 
 					cout << "1. 공격" << endl;
 					cout << "2. 도망가기" << endl;
@@ -369,9 +403,22 @@ int main()
 					{
 					case BT_ATTACK:
 					{
+						// Min 5, Max 15라고 가정할 경우
+						// 15 - 5 + 1하면 11이 된다. 11로 나눈 나머지는 0~10이 나오게 되고 여기에 5를 더하면 5~15사이의 값이 나오게 된다
 						// 플레이어가 몬스터를 공격한다
-						int iAttack = rand() % (tPlayer.iAttackMax - tPlayer.iAttackMin + 1) + tPlayer.iAttackMin;
-						int iArmor = rand() % (tMonster.iArmorMax - tMonster.iArmorMin + 1) + tMonster.iArmorMin;
+
+						// 무기를 장착하고 있을경우에는 수치가 달라진다
+						int iAttackMin = tPlayer.iAttackMin, iAttackMax = tPlayer.iAttackMax;
+						int iArmorMin = tMonster.iArmorMin, iArmorMax = tMonster.iArmorMax;
+
+						if (tPlayer.bEquip[EQ_WEAPON])
+						{
+							iAttackMin += tPlayer.tEquip[EQ_WEAPON].iMin;
+							iAttackMax += tPlayer.tEquip[EQ_WEAPON].iMax;
+						}
+
+						int iAttack = rand() % (iAttackMax - iAttackMin + 1) + iAttackMin;
+						int iArmor = rand() % (iArmorMax - iArmorMin + 1) + iArmorMin;
 
 						int iDamage = iAttack - iArmor;
 						//최소 대미지는 1이다
@@ -400,8 +447,16 @@ int main()
 							break;
 						}
 						// 몬스터가 플레이어를 공격한다.
-						iAttack = rand() % (tMonster.iAttackMax - tMonster.iAttackMin + 1) + tMonster.iAttackMin;
-						iArmor = rand() % (tPlayer.iArmorMax - tPlayer.iArmorMin + 1) + tPlayer.iArmorMin;
+						iAttackMin = tMonster.iAttackMin, iAttackMax = tMonster.iAttackMax;
+						iArmorMin = tPlayer.iArmorMin, iArmorMax = tPlayer.iArmorMax;
+
+						if (tPlayer.bEquip[EQ_ARMOR])
+						{
+							iArmorMin += tPlayer.tEquip[EQ_ARMOR].iMin;
+							iArmorMax += tPlayer.tEquip[EQ_ARMOR].iMax;
+						}
+						iAttack = rand() % (iAttackMax - iAttackMin + 1) + iAttackMin;
+						iArmor = rand() % (iArmorMax - iArmorMin + 1) + iArmorMin;
 
 						iDamage = iAttack - iArmor;
 						iDamage = iDamage < 1 ? 1 : iDamage;
@@ -469,7 +524,7 @@ int main()
 						for (int i = 0; i < STORE_WEAPON_MAX; i++)
 						{
 							cout << i + 1 << ". 이름 : " << tStoreWeapon[i].strName << "\t종류 : " << tStoreWeapon[i].strTypeName << endl;
-							cout << "공격력 : " << tStoreWeapon[i].iMin << "-" << tStoreWeapon[i].iMax << endl;
+							cout << "공격력 : " << tStoreWeapon[i].iMin << " - " << tStoreWeapon[i].iMax << endl;
 							cout << "판매가격 : " << tStoreWeapon[i].iPrice << "\t구매가격 : " << tStoreWeapon[i].iSell << endl;
 							cout << "설명 : " << tStoreWeapon[i].strDesc << endl << endl;
 						}
@@ -532,7 +587,7 @@ int main()
 						for (int i = 0; i < STORE_ARMOR_MAX; i++)
 						{
 							cout << i + 1 << ". 이름 : " << tStoreArmor[i].strName << "\t종류 : " << tStoreArmor[i].strTypeName << endl;
-							cout << "방어력 : " << tStoreArmor[i].iMin << "-" << tStoreArmor[i].iMax << endl;
+							cout << "방어력 : " << tStoreArmor[i].iMin << " - " << tStoreArmor[i].iMax << endl;
 							cout << "판매가격 : " << tStoreArmor[i].iPrice << "\t구매가격 : " << tStoreArmor[i].iSell << endl;
 							cout << "설명 : " << tStoreArmor[i].strDesc << endl << endl;
 						}
@@ -598,21 +653,98 @@ int main()
 				cout << "========== Player ==========" << endl;
 				cout << "이름 : " << tPlayer.strName << "\t직업 : " << tPlayer.strJobName << endl;
 				cout << "레벨 : " << tPlayer.iLevel << "\t경험치 : " << tPlayer.iExp << endl;
-				cout << "공격력 : " << tPlayer.iAttackMin << "-" << tPlayer.iAttackMax
-					<< "\t방어력 : " << tPlayer.iArmorMin << "-" << tPlayer.iArmorMax << endl;
+				if (tPlayer.bEquip[EQ_WEAPON] == true)
+				{
+					cout << "공격력 : " << tPlayer.iAttackMin << "+" << tPlayer.tEquip[EQ_WEAPON].iMin << " - " << tPlayer.iAttackMax << "+" << tPlayer.tEquip[EQ_WEAPON].iMax;
+				}
+				else
+				{
+					cout << "공격력 : " << tPlayer.iAttackMin << " - " << tPlayer.iAttackMax;
+				}
+				if (tPlayer.bEquip[EQ_ARMOR] == true)
+				{
+					cout << "\t방어력 : " << tPlayer.iArmorMin << "+" << tPlayer.tEquip[EQ_ARMOR].iMin << " - " << tPlayer.iArmorMax << "+" << tPlayer.tEquip[EQ_ARMOR].iMax << endl;
+				}
+				else
+				{
+					cout << "\t방어력 : " << tPlayer.iArmorMin << " - " << tPlayer.iArmorMax << endl;
+				}
 				cout << "체력 : " << tPlayer.iHP << "/" << tPlayer.iHPMax
 					<< "\t마나 : " << tPlayer.iMP << "/" << tPlayer.iHPMax << endl;
+				if (tPlayer.bEquip[EQ_WEAPON])
+					cout << "장착무기 : " << tPlayer.tEquip[EQ_WEAPON].strName;
+				else
+					cout << "장착무기 : 없음";
+				if (tPlayer.bEquip[EQ_ARMOR])
+					cout << "장착방어구 : " << tPlayer.tEquip[EQ_ARMOR].strName;
+				else
+					cout << "장착방어구 : 없음";
 				cout << "보유골드 : " << tPlayer.tInventory.iGold << "Gold" << endl;
+
+				// 장비 정보를 출력해준다
 				cout << "========== 장비리스트 ==========" << endl;
 				for (int i = 0; i < tPlayer.tInventory.iItemCount; i++)
 				{
 					cout << i + 1 << ". 이름 : " << tPlayer.tInventory.tItem[i].strName << "\t종류 : " << tPlayer.tInventory.tItem[i].strTypeName << endl;
-					cout << "공격력 : " << tPlayer.tInventory.tItem[i].iMin << "-" << tPlayer.tInventory.tItem[i].iMax << endl;
+					cout << "공격력 : " << tPlayer.tInventory.tItem[i].iMin << " - " << tPlayer.tInventory.tItem[i].iMax << endl;
 					cout << "판매가격 : " << tPlayer.tInventory.tItem[i].iPrice << "\t구매가격 : " << tPlayer.tInventory.tItem[i].iSell << endl;
 					cout << "설명 : " << tPlayer.tInventory.tItem[i].strDesc << endl << endl;
 				}
+
+				cout << tPlayer.tInventory.iItemCount + 1 << ". 뒤로가기" << endl;
+				cout << "장착할 아이템을 선택하세요 : ";
+				cin >> iMenu;
+				if (cin.fail())
+				{
+					cin.clear();
+					cin.ignore(1024, '\n');
+					continue;
+				}
+				else if (iMenu == tPlayer.tInventory.iItemCount + 1)
+					break;
+				else if (iMenu < 1 || iMenu > tPlayer.tInventory.iItemCount + 1)
+				{
+					cout << "잘못 선택하였습니다." << endl;
+					system("pause");
+					continue;
+				}
+				// 아이템 인덱스를 구해준다.
+				int idx = iMenu - 1;
+
+				// 제대로 선택했을 경우 해당 아이템의 종류에 따라 장착 부위를 결정한다
+				EQUIP eq;
+
+
+				switch (tPlayer.tInventory.tItem[idx].eType)
+				{
+				case IT_WEAPON:
+					eq = EQ_WEAPON;
+					break;
+				case IT_ARMOR:
+					eq = EQ_ARMOR;
+					break;
+				}
+
+				if (tPlayer.bEquip[eq] == true)
+				{
+					_tagItem tSwap = tPlayer.tEquip[eq];
+					tPlayer.tEquip[eq] = tPlayer.tInventory.tItem[idx];
+					tPlayer.tInventory.tItem[idx] = tSwap;
+				}
+				else
+				{
+					tPlayer.tEquip[eq] = tPlayer.tInventory.tItem[idx];
+					for (int i = idx; i < tPlayer.tInventory.iItemCount - 1; i++)
+					{
+						tPlayer.tInventory.tItem[i] = tPlayer.tInventory.tItem[i + 1];
+					}
+					tPlayer.tInventory.iItemCount--;
+
+					tPlayer.bEquip[eq] = true;
+				}
+
+
 				system("pause");
-				break;
 			}
 
 			break;
