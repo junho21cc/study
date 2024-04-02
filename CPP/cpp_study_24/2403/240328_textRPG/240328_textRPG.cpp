@@ -6,6 +6,7 @@
 #define INVENTORY_MAX 20
 #define STORE_WEAPON_MAX 3
 #define STORE_ARMOR_MAX 5
+#define LEVEL_MAX 10
 
 using namespace std;
 
@@ -122,8 +123,54 @@ struct _tagMonster
 	int iGoldMax;
 };
 
+struct _tagLevelUpStatus
+{
+	int iAttackMin;
+	int iAttackMax;
+	int iArmorMin;
+	int iArmorMax;
+	int iHPMin;
+	int iHPMax;
+	int iMPMin;
+	int iMPMax;
+};
+
 int main()
 {
+	const int iLevelUpExp[LEVEL_MAX] = { 4000, 10000, 20000, 35000, 50000, 70000, 100000, 150000, 200000, 400000 };
+
+	_tagLevelUpStatus tLvUpTable[JOB_END - 1] = {};
+
+	// 기사의 레벨업 테이블
+	tLvUpTable[JOB_KNIGHT - 1].iAttackMin = 4;
+	tLvUpTable[JOB_KNIGHT - 1].iAttackMax = 10;
+	tLvUpTable[JOB_KNIGHT - 1].iArmorMin = 8;
+	tLvUpTable[JOB_KNIGHT - 1].iArmorMax = 16;
+	tLvUpTable[JOB_KNIGHT - 1].iHPMin = 50;
+	tLvUpTable[JOB_KNIGHT - 1].iHPMax = 100;
+	tLvUpTable[JOB_KNIGHT - 1].iMPMin = 10;
+	tLvUpTable[JOB_KNIGHT - 1].iMPMax = 20;
+
+	// 궁수의 레벨업 테이블
+	tLvUpTable[JOB_ARCHER - 1].iAttackMin = 10;
+	tLvUpTable[JOB_ARCHER - 1].iAttackMax = 15;
+	tLvUpTable[JOB_ARCHER - 1].iArmorMin = 5;
+	tLvUpTable[JOB_ARCHER - 1].iArmorMax = 10;
+	tLvUpTable[JOB_ARCHER - 1].iHPMin = 30;
+	tLvUpTable[JOB_ARCHER - 1].iHPMax = 60;
+	tLvUpTable[JOB_ARCHER - 1].iMPMin = 30;
+	tLvUpTable[JOB_ARCHER - 1].iMPMax = 50;
+
+	// 마법사의 레벨업 테이블
+	tLvUpTable[JOB_WIZARD - 1].iAttackMin = 15;
+	tLvUpTable[JOB_WIZARD - 1].iAttackMax = 20;
+	tLvUpTable[JOB_WIZARD - 1].iArmorMin = 3;
+	tLvUpTable[JOB_WIZARD - 1].iArmorMax = 7;
+	tLvUpTable[JOB_WIZARD - 1].iHPMin = 20;
+	tLvUpTable[JOB_WIZARD - 1].iHPMax = 40;
+	tLvUpTable[JOB_WIZARD - 1].iMPMin = 50;
+	tLvUpTable[JOB_WIZARD - 1].iMPMax = 100;
+
 	srand((unsigned int)time(0));
 
 	int iMenu;
@@ -346,7 +393,7 @@ int main()
 					// 플레이어 정보를 출력한다
 					cout << "========== Player ==========" << endl;
 					cout << "이름 : " << tPlayer.strName << "\t직업 : " << tPlayer.strJobName << endl;
-					cout << "레벨 : " << tPlayer.iLevel << "\t경험치 : " << tPlayer.iExp << endl;
+					cout << "레벨 : " << tPlayer.iLevel << "\t경험치 : " << tPlayer.iExp << " / " << iLevelUpExp[tPlayer.iLevel - 1] << endl;
 					if (tPlayer.bEquip[EQ_WEAPON] == true)
 					{
 						cout << "공격력 : " << tPlayer.iAttackMin << "+" << tPlayer.tEquip[EQ_WEAPON].iMin << " - " << tPlayer.iAttackMax << "+" << tPlayer.tEquip[EQ_WEAPON].iMax;
@@ -442,6 +489,30 @@ int main()
 
 							tMonster.iHP = tMonster.iHPMax;
 							tMonster.iMP = tMonster.iMPMax;
+
+							// 레벨업 체크
+							if (tPlayer.iExp >= iLevelUpExp[tPlayer.iLevel - 1])
+							{
+								tPlayer.iExp -= iLevelUpExp[tPlayer.iLevel - 1];
+
+								tPlayer.iLevel++;
+
+								cout << "레벨업 하였습니다" << endl;
+								// 능력치 상승
+								int iHPUp = rand() % (tLvUpTable[tPlayer.eJob - 1].iHPMax - tLvUpTable[tPlayer.eJob - 1].iHPMin + 1) + tLvUpTable[tPlayer.eJob - 1].iHPMin;
+								int iMPUp = rand() % (tLvUpTable[tPlayer.eJob - 1].iMPMax - tLvUpTable[tPlayer.eJob - 1].iMPMin + 1) + tLvUpTable[tPlayer.eJob - 1].iMPMin;
+							
+								tPlayer.iAttackMin += tLvUpTable[tPlayer.eJob - 1].iAttackMin;
+								tPlayer.iAttackMax += tLvUpTable[tPlayer.eJob - 1].iAttackMax;
+								tPlayer.iArmorMin += tLvUpTable[tPlayer.eJob - 1].iArmorMin;
+								tPlayer.iArmorMax += tLvUpTable[tPlayer.eJob - 1].iArmorMax;
+								tPlayer.iHPMax += iHPUp;
+								tPlayer.iMPMax += iHPUp;
+								// 레벨업하면 체력과 마나를 다시 채워준다
+								tPlayer.iHP = tPlayer.iHPMax;
+								tPlayer.iMP = tPlayer.iMPMax;
+							}
+
 
 							system("pause");
 							break;
@@ -652,7 +723,7 @@ int main()
 				// 플레이어 정보를 출력한다
 				cout << "========== Player ==========" << endl;
 				cout << "이름 : " << tPlayer.strName << "\t직업 : " << tPlayer.strJobName << endl;
-				cout << "레벨 : " << tPlayer.iLevel << "\t경험치 : " << tPlayer.iExp << endl;
+				cout << "레벨 : " << tPlayer.iLevel << "\t경험치 : " << tPlayer.iExp << " / " << iLevelUpExp[tPlayer.iLevel - 1] << endl;
 				if (tPlayer.bEquip[EQ_WEAPON] == true)
 				{
 					cout << "공격력 : " << tPlayer.iAttackMin << "+" << tPlayer.tEquip[EQ_WEAPON].iMin << " - " << tPlayer.iAttackMax << "+" << tPlayer.tEquip[EQ_WEAPON].iMax;
