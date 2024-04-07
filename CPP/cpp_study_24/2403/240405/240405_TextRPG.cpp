@@ -159,7 +159,10 @@ _tagLevelUpStatus CreateLvUpStatus(int iAttackMin, int iAttackMax, int iArmorMin
 void RunStore(_tagInventory* pInventory, _tagItem* pWeapon, _tagItem* pArmor);
 void RunInventory(_tagPlayer* pPlayer);
 int OutputStoreMenu();
-
+void BuyItem(_tagInventory* pInventory, _tagItem* pStore, int iItemCount, int iStoreType);
+_tagItem CreateItem(char* pName, ITEM_TYPE eType, int iMin, int iMax, int iPrice, int iSell, char* pDesc);
+EQUIP ComputeEquipType(ITEM_TYPE eType);
+int OutputInventory(_tagPlayer* pPlayer);
 
 int main()
 {
@@ -205,6 +208,7 @@ int main()
 			RunStore(&tPlayer.tInventory, tStoreWeapon, tStoreArmor);
 			break;
 		case MM_INVENTORY:
+			RunInventory(&tPlayer);
 			break;
 		case MM_EXIT:
 			bLoop = false;
@@ -522,17 +526,18 @@ void Battle(_tagPlayer* pPlayer, _tagMonster* pMonster)
 		{
 			pPlayer->iExp -= g_iLevelUpExp[pPlayer->iLevel - 1];
 
+
 			pPlayer->iLevel++;
 
 			cout << "레벨업 하였습니다" << endl;
 			// 능력치 상승
-			int iHPUp = rand() % (g_tLvUpTable[pPlayer->eJob - 1].iHPMax - g_tLvUpTable[pPlayer->eJob - 1].iHPMin + 1) + g_tLvUpTable[pPlayer->eJob - 1].iHPMin;
-			int iMPUp = rand() % (g_tLvUpTable[pPlayer->eJob - 1].iMPMax - g_tLvUpTable[pPlayer->eJob - 1].iMPMin + 1) + g_tLvUpTable[pPlayer->eJob - 1].iMPMin;
+			int iHPUp = rand() % (g_tLvUpTable[pPlayer->eJob].iHPMax - g_tLvUpTable[pPlayer->eJob - 1].iHPMin + 1) + g_tLvUpTable[pPlayer->eJob - 1].iHPMin;
+			int iMPUp = rand() % (g_tLvUpTable[pPlayer->eJob].iMPMax - g_tLvUpTable[pPlayer->eJob - 1].iMPMin + 1) + g_tLvUpTable[pPlayer->eJob - 1].iMPMin;
 
-			pPlayer->iAttackMin += g_tLvUpTable[pPlayer->eJob - 1].iAttackMin;
-			pPlayer->iAttackMax += g_tLvUpTable[pPlayer->eJob - 1].iAttackMax;
-			pPlayer->iArmorMin += g_tLvUpTable[pPlayer->eJob - 1].iArmorMin;
-			pPlayer->iArmorMax += g_tLvUpTable[pPlayer->eJob - 1].iArmorMax;
+			pPlayer->iAttackMin += g_tLvUpTable[pPlayer->eJob].iAttackMin;
+			pPlayer->iAttackMax += g_tLvUpTable[pPlayer->eJob].iAttackMax;
+			pPlayer->iArmorMin += g_tLvUpTable[pPlayer->eJob].iArmorMin;
+			pPlayer->iArmorMax += g_tLvUpTable[pPlayer->eJob].iArmorMax;
 			pPlayer->iHPMax += iHPUp;
 			pPlayer->iMPMax += iHPUp;
 			// 레벨업하면 체력과 마나를 다시 채워준다
@@ -630,8 +635,10 @@ void RunStore(_tagInventory* pInventory, _tagItem* pWeapon, _tagItem* pArmor)
 		switch (OutputStoreMenu())
 		{
 		case SM_WEAPON:
+			BuyItem(pInventory, pWeapon, STORE_WEAPON_MAX, SM_WEAPON);
 			break;
 		case SM_ARMOR:
+			BuyItem(pInventory, pArmor, STORE_ARMOR_MAX, SM_ARMOR);
 			break;
 		case SM_BACK:
 			return;
@@ -657,8 +664,159 @@ int OutputStoreMenu()
 	return iMenu;
 }
 
+int OutputItemList(_tagInventory* pInventory, _tagItem* pStore, int iItemCount)
+{
+	for (int i = 0; i < iItemCount; i++)
+	{
+		cout << i + 1 << ". 이름 : " << pStore[i].strName << "\t종류 : " << pStore[i].strTypeName << endl;
+		cout << "공격력 : " << pStore[i].iMin << " - " << pStore[i].iMax << endl;
+		cout << "판매가격 : " << pStore[i].iPrice << "\t구매가격 : " << pStore[i].iSell << endl;
+		cout << "설명 : " << pStore[i].strDesc << endl << endl;
+	}
+
+	cout << STORE_WEAPON_MAX + 1 << ". 뒤로가기" << endl;
+	cout << "보유금액 : " << pInventory->iGold << "Gold" << endl;
+	cout << "남은공간 : " << INVENTORY_MAX - pInventory->iItemCount << endl;
+	cout << "구입할 아이템을 선택하세요 : ";
+
+	int iMenu = InputInt();
+
+	if (iMenu < 1 || iMenu > iItemCount + 1)
+		return INT_MAX;
+	return iMenu;
+}
+
+void BuyItem(_tagInventory* pInventory, _tagItem* pStore, int iItemCount, int iStoreType)
+{
+	while (true)
+	{
+		system("cls");
+		switch (iStoreType)
+		{
+		case SM_WEAPON:
+			cout << "무기상점" << endl;
+			break;
+		case SM_ARMOR:
+			cout << "방어구 상점" << endl;
+			break;
+		}
+
+		int iInput = OutputItemList(pInventory, pStore, iItemCount);
+
+		if (iInput == INT_MAX)
+		{
+			cout << "잘못입력하였습니다" << endl;
+			system("pause");
+			continue;
+		}
+		else if (iInput == iItemCount + 1)
+			break;
+
+		// 상점 판매 목록 배열의 인덱스를 구한다
+		int iIndex = iInput - 1;
+
+		// 인벤토리가 꽉 찼는지 검사한다
+		if (pInventory->iItemCount == INVENTORY_MAX)
+		{
+			cout << "가방이 꽉 찼습니다." << endl;
+			system("pause");
+			continue;
+		}
+		//돈이 부족한 경우
+		else if (pInventory->iGold < pStore[iIndex].iPrice)
+		{
+			cout << "보유 금액이 부족합니다." << endl;
+			system("pause");
+			continue;
+		}
+		// 인벤토리에 무기를 넣어준다
+		pInventory->tItem[pInventory->iItemCount] = pStore[iIndex];
+		pInventory->iItemCount++;
+
+		// 골드를 차감한다
+		pInventory->iGold -= pStore[iIndex].iPrice;
+
+		cout << pStore[iIndex].strName << "아이템을 구매했습니다." << endl;
+		system("pause");
+	}
+}
 
 void RunInventory(_tagPlayer* pPlayer)
 {
+	while (1)
+	{
+		int iInput = OutputInventory(pPlayer);
 
+		if (iInput == INT_MAX)
+			continue;
+		else if (iInput == pPlayer->tInventory.iItemCount + 1)
+			break;
+		// 아이템 인덱스를 구해준다.
+		int idx = iInput - 1;
+
+		// 제대로 선택했을 경우 해당 아이템의 종류에 따라 장착 부위를 결정한다
+		EQUIP eq = ComputeEquipType(pPlayer->tInventory.tItem[idx].eType);
+
+		if (pPlayer->bEquip[eq] == true)
+		{
+			_tagItem tSwap = pPlayer->tEquip[eq];
+			pPlayer->tEquip[eq] = pPlayer->tInventory.tItem[idx];
+			pPlayer->tInventory.tItem[idx] = tSwap;
+		}
+		else
+		{
+			pPlayer->tEquip[eq] = pPlayer->tInventory.tItem[idx];
+			for (int i = idx; i < pPlayer->tInventory.iItemCount - 1; i++)
+			{
+				pPlayer->tInventory.tItem[i] = pPlayer->tInventory.tItem[i + 1];
+			}
+			pPlayer->tInventory.iItemCount--;
+
+			pPlayer->bEquip[eq] = true;
+		}
+	}
+}
+
+int OutputInventory(_tagPlayer* pPlayer)
+{
+	system("cls");
+
+	cout << "가방" << endl;
+
+	OutputPlayer(pPlayer);
+	// 장비 정보를 출력해준다
+	cout << "========== 장비리스트 ==========" << endl;
+	for (int i = 0; i < pPlayer->tInventory.iItemCount; i++)
+	{
+		cout << i + 1 << ". 이름 : " << pPlayer->tInventory.tItem[i].strName << "\t종류 : " << pPlayer->tInventory.tItem[i].strTypeName << endl;
+		cout << "공격력 : " << pPlayer->tInventory.tItem[i].iMin << " - " << pPlayer->tInventory.tItem[i].iMax << endl;
+		cout << "판매가격 : " << pPlayer->tInventory.tItem[i].iPrice << "\t구매가격 : " << pPlayer->tInventory.tItem[i].iSell << endl;
+		cout << "설명 : " << pPlayer->tInventory.tItem[i].strDesc << endl << endl;
+	}
+
+	cout << pPlayer->tInventory.iItemCount + 1 << ". 뒤로가기" << endl;
+	cout << "장착할 아이템을 선택하세요 : ";
+
+	int iMenu = InputInt();
+
+	if (iMenu < 1 || iMenu > pPlayer->tInventory.iItemCount + 1)
+		return INT_MAX;
+
+	return iMenu;
+}
+
+EQUIP ComputeEquipType(ITEM_TYPE eType)
+{
+	EQUIP eq;
+	switch (eType)
+	{
+	case IT_WEAPON:
+		eq = EQ_WEAPON;
+		break;
+	case IT_ARMOR:
+		eq = EQ_ARMOR;
+		break;
+	}
+
+	return eq;
 }
