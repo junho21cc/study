@@ -13,6 +13,7 @@ enum MAIN_MENU
 	MM_DELETE,
 	MM_SEARCH,
 	MM_OUTPUT,
+	MM_SORT,
 	MM_EXIT
 };
 
@@ -21,6 +22,14 @@ enum OUTPUT_TYPE
 	OT_NONE,
 	OT_OUTPUT,
 	OT_INVERSE
+};
+
+enum SORT_TYPE
+{
+	ST_NONE,
+	ST_NUMBER,
+	ST_AVG,
+	ST_BACK
 };
 
 typedef struct _tagStudent
@@ -64,3 +73,5 @@ void Push_Front(PLIST pList);
 
 void Search(PLIST pList);
 void Delete(PLIST pList);
+
+void Sort(PLIST pList);

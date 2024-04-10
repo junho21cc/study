@@ -20,13 +20,16 @@ int main()
 			Push_Back(&tList);
 			break;
 		case MM_DELETE:
-			//Delete(&tList);
+			Delete(&tList);
 			break;
 		case MM_SEARCH:
-			//Search(&tList);
+			Search(&tList);
 			break;
 		case MM_OUTPUT:
 			Output(&tList);
+			break;
+		case MM_SORT:
+			Sort(&tList);
 			break;
 		}
 	}

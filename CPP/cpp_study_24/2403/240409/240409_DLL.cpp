@@ -44,7 +44,8 @@ int OutputMenu()
 	cout << "2. 학생삭제" << endl;
 	cout << "3. 학생탐색" << endl;
 	cout << "4. 학생출력" << endl;
-	cout << "5. 종료" << endl;
+	cout << "5. 학생정렬" << endl;
+	cout << "6. 종료" << endl;
 	cout << "메뉴를 선택하세요 : ";
 
 	int iInput = InputInt();
@@ -73,6 +74,7 @@ void DestroyList(PLIST pList)
 // const 포인터이기 때문에 가리키는 대상의 값을 변경할 수 없다
 void OutputStudent(const PSTUDENT pStudent)
 {
+	cout << "--------------------" << endl;
 	cout << "이름 : " << pStudent->strName << "\t학번 : " << pStudent->iNumber << endl;
 	cout << "국어 : " << pStudent->iKor << "\t영어 : " << pStudent->iEng << endl;
 	cout << "수학 : " << pStudent->iMath << endl;
@@ -289,5 +291,62 @@ void Delete(PLIST pList)
 		pNode = pNode->pNext;
 	}
 	cout << "삭제할 학생이 없습니다" << endl;
+	system("pause");
+}
+
+void Sort(PLIST pList)
+{
+	system("cls");
+	cout << "학생 정렬" << endl;
+	cout << "1. 학점기준" << endl;
+	cout << "2. 평균기준" << endl;
+	cout << "메뉴를 선택하세요 : ";
+
+	int iInput = InputInt();
+
+	if (iInput <= ST_NONE || iInput >= ST_BACK)
+	{
+		cout << "잘못 선택하였습니다" << endl;
+		system("pause");
+		return;
+	}
+	
+	PNODE pFirst = pList->pBegin->pNext;
+	PNODE pSecond = pFirst->pNext;
+
+	// First는 End이전노드 전까지 반복해야한다
+	while (pFirst != pList->pEnd->pPrev)
+	{
+		// Second는 무조건 First 노드 다음노드부터 검사를 시작한다
+		pSecond = pFirst->pNext;
+
+		// Second는 End이전까지 반복해야한다
+		while (pSecond != pList->pEnd)
+		{
+			bool bSwap = false;
+
+			switch (iInput) 
+			{
+			case ST_NUMBER:
+				if (pFirst->tStudent.iNumber > pSecond->tStudent.iNumber)
+					bSwap = true;
+				break;
+			case ST_AVG:
+				if (pFirst->tStudent.fAvg > pSecond->tStudent.fAvg)
+					bSwap = true;
+				break;
+			}
+			// bool변수 bSwap값이 true일 경우 두 노드를 바꿔준다
+			if (bSwap)
+			{
+				_tagStudent Temp = pFirst->tStudent;
+				pFirst->tStudent = pSecond->tStudent;
+				pSecond->tStudent = Temp;
+			}
+			pSecond = pSecond->pNext;
+		}
+		pFirst = pFirst->pNext;
+	}
+	cout << "학생 정렬 완료" << endl;
 	system("pause");
 }
