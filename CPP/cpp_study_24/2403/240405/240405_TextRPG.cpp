@@ -11,6 +11,14 @@
 
 using namespace std;
 
+enum GAME_MODE
+{
+	GM_NONE,
+	GM_NEW,
+	GM_LOAD,
+	GM_END
+};
+
 enum MAIN_MENU
 {
 	MM_NONE,
@@ -163,13 +171,51 @@ void BuyItem(_tagInventory* pInventory, _tagItem* pStore, int iItemCount, int iS
 _tagItem CreateItem(char* pName, ITEM_TYPE eType, int iMin, int iMax, int iPrice, int iSell, char* pDesc);
 EQUIP ComputeEquipType(ITEM_TYPE eType);
 int OutputInventory(_tagPlayer* pPlayer);
+bool LoadPlayer(_tagPlayer* pPlayer);
+bool SavePlayer(_tagPlayer* pPlayer);
 
 int main()
 {
 	srand((unsigned int)time(0));
+
 	bool bLoop = true;
 	// 게임을 시작할때 플레이어 정보를 설정하게 한다
 	_tagPlayer tPlayer = {};
+
+	int iGameMode = 0;
+
+	while (iGameMode <= GM_NONE || iGameMode > GM_END)
+	{
+		system("cls");
+		cout << "1. 새로하기" << endl;
+		cout << "2. 이어하기" << endl;
+		cout << "3. 종료" << endl;
+		cout << "게임모드를 선택하세요 : ";
+		iGameMode = InputInt();
+	}
+
+	if (iGameMode == GM_END)
+		return 0;
+
+	switch (iGameMode)
+	{
+	case GM_NEW:
+		SetPlayer(&tPlayer);
+		break;
+	case GM_LOAD:
+		if (!LoadPlayer(&tPlayer))
+		{
+			cout << "플레이어 파일 오류!" << endl;
+			return 0;
+		}
+		else
+		{
+
+		}
+		break;
+	}
+
+
 
 	// 플레이어 정보를 정의한다
 	SetPlayer(&tPlayer);
@@ -194,8 +240,10 @@ int main()
 	
 	
 	tStoreArmor[0] = CreateItem((char*)"천갑옷", IT_ARMOR, 2, 5, 1000, 500, (char*)"천으로 만든 갑옷");
-	tStoreArmor[1] = CreateItem((char*)"가죽갑옷", IT_ARMOR, 4, 10, 2000, 1000, (char*)"천으로 만든 갑옷");
-	tStoreArmor[2] = CreateItem((char*)"철갑옷", IT_ARMOR, 50, 100, 15000, 8000, (char*)"천으로 만든 갑옷");
+	tStoreArmor[1] = CreateItem((char*)"가죽갑옷", IT_ARMOR, 4, 10, 2000, 1000, (char*)"가죽으로 만든 갑옷");
+	tStoreArmor[2] = CreateItem((char*)"철갑옷", IT_ARMOR, 50, 100, 15000, 8000, (char*)"철로 만든 갑옷");
+	tStoreArmor[3] = CreateItem((char*)"강철갑옷", IT_ARMOR, 100, 200, 20000, 15000, (char*)"강철로 만든 갑옷");
+	tStoreArmor[4] = CreateItem((char*)"백철갑옷", IT_ARMOR, 800, 1000, 150000, 80000, (char*)"백철로 만든 갑옷");
 
 	while (bLoop)
 	{
@@ -215,6 +263,9 @@ int main()
 			break;
 		}
 	}
+
+	SavePlayer(&tPlayer);
+
 	return 0;
 }
 
@@ -287,6 +338,10 @@ int OutputMapMenu()
 
 void SetPlayer(_tagPlayer* pPlayer)
 {
+	system("cls");
+	cin.clear();
+	cin.ignore(1024, '\n');
+
 	// 플레이어 이름을 입력받는다
 	cout << "이름 : ";
 	cin.getline(pPlayer->strName, NAME_SIZE - 1);
@@ -819,4 +874,113 @@ EQUIP ComputeEquipType(ITEM_TYPE eType)
 	}
 
 	return eq;
+}
+
+bool LoadPlayer(_tagPlayer* pPlayer)
+{
+	FILE* pFile = NULL;
+
+	fopen_s(&pFile, "Player.ply", "rb");
+
+	if (pFile)
+	{
+		// 플레이어 이름을 읽어온다
+		fread(pPlayer->strName, 1, NAME_SIZE, pFile);
+		
+		// 직업 정보를 읽어온다
+		fread(&pPlayer->eJob, sizeof(JOB), 1, pFile);
+		fread(&pPlayer->strJobName, 1, NAME_SIZE, pFile);
+		
+		// 플레이어의 스탯을 읽어온다
+		// 2번째 파라미터에 4를 쓴건 int의 크기가 4byte이기 때문이다 sizeof(int)를 사용해도 상관없다
+		fread(&pPlayer->iAttackMin, 4, 1, pFile);
+		fread(&pPlayer->iAttackMax, 4, 1, pFile);
+		fread(&pPlayer->iArmorMin, 4, 1, pFile);
+		fread(&pPlayer->iArmorMax, 4, 1, pFile);
+		fread(&pPlayer->iHP, 4, 1, pFile);
+		fread(&pPlayer->iHPMax, 4, 1, pFile);
+		fread(&pPlayer->iMP, 4, 1, pFile);
+		fread(&pPlayer->iMPMax, 4, 1, pFile);
+		fread(&pPlayer->iExp, 4, 1, pFile);
+		fread(&pPlayer->iLevel, 4, 1, pFile);
+
+		//무기 착용 여부를 읽어온다
+		fread(&pPlayer->bEquip[EQ_WEAPON], 1, 1, pFile);
+		// 만약무기를 차고있다면 무기의 정보도 가져온다
+		if (pPlayer->bEquip[EQ_WEAPON])
+			fread(&pPlayer->tEquip[EQ_WEAPON], sizeof(_tagItem), 1, pFile);
+		// 방어구 착용 여부를 읽어온다
+		fread(&pPlayer->bEquip[EQ_ARMOR], 1, 1, pFile);
+		//만약 방어구를 차고있다면 방어구의 정보도 가져온다
+		if (pPlayer->bEquip[EQ_ARMOR])
+			fread(&pPlayer->tEquip[EQ_ARMOR], sizeof(_tagItem), 1, pFile);
+		
+		// 골드를 읽어온다
+		fread(&pPlayer->tInventory.iGold, 4, 1, pFile);
+		
+		// 인벤토리 아이템 수를 읽어온다
+		fread(&pPlayer->tInventory.iItemCount, 4, 1, pFile);
+		
+		// 읽어온 아이템 수만큼 인벤토리에 아이템정보를 읽어온다
+		fread(&pPlayer->tInventory.tItem, sizeof(_tagItem), pPlayer->tInventory.iItemCount, pFile);
+		
+		fclose(pFile);
+		return true;
+	}
+	return false;
+}
+
+bool SavePlayer(_tagPlayer* pPlayer)
+{
+	FILE* pFile = NULL;
+
+	fopen_s(&pFile, "Player.ply", "wb");
+
+	if (pFile)
+	{
+		// 플레이어 이름을 저장한다
+		fwrite(pPlayer->strName, 1, NAME_SIZE, pFile);
+
+		// 직업 정보를 저장한다
+		fwrite(&pPlayer->eJob, sizeof(JOB), 1, pFile);
+		fwrite(&pPlayer->strJobName, 1, NAME_SIZE, pFile);
+
+		// 플레이어의 스탯을 저장한다
+		// 2번째 파라미터에 4를 쓴건 int의 크기가 4byte이기 때문이다 sizeof(int)를 사용해도 상관없다
+		fwrite(&pPlayer->iAttackMin, 4, 1, pFile);
+		fwrite(&pPlayer->iAttackMax, 4, 1, pFile);
+		fwrite(&pPlayer->iArmorMin, 4, 1, pFile);
+		fwrite(&pPlayer->iArmorMax, 4, 1, pFile);
+		fwrite(&pPlayer->iHP, 4, 1, pFile);
+		fwrite(&pPlayer->iHPMax, 4, 1, pFile);
+		fwrite(&pPlayer->iMP, 4, 1, pFile);
+		fwrite(&pPlayer->iMPMax, 4, 1, pFile);
+		fwrite(&pPlayer->iExp, 4, 1, pFile);
+		fwrite(&pPlayer->iLevel, 4, 1, pFile);
+
+		//무기 착용 여부를 저장한다
+		fwrite(&pPlayer->bEquip[EQ_WEAPON], 1, 1, pFile);
+		// 만약무기를 차고있다면 무기의 정보도 저장한다
+		if (pPlayer->bEquip[EQ_WEAPON])
+			fwrite(&pPlayer->tEquip[EQ_WEAPON], sizeof(_tagItem), 1, pFile);
+		// 방어구 착용 여부를 저장한다
+		fwrite(&pPlayer->bEquip[EQ_ARMOR], 1, 1, pFile);
+		//만약 방어구를 차고있다면 방어구의 정보도 저장한다
+		if (pPlayer->bEquip[EQ_ARMOR])
+			fwrite(&pPlayer->tEquip[EQ_ARMOR], sizeof(_tagItem), 1, pFile);
+
+		// 골드를 저장한다
+		fwrite(&pPlayer->tInventory.iGold, 4, 1, pFile);
+
+		// 인벤토리 아이템 수를 저장한다
+		fwrite(&pPlayer->tInventory.iItemCount, 4, 1, pFile);
+
+		// 읽어온 아이템 수만큼 인벤토리에 아이템정보를 저장한다
+		fwrite(&pPlayer->tInventory.tItem, sizeof(_tagItem), pPlayer->tInventory.iItemCount, pFile);
+
+		fclose(pFile);
+		return true;
+	}
+
+	return false;
 }
