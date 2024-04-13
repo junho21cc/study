@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{2a630632-aca7-47ea-9d19-174d7bcba18a}</ProjectGuid>
-    <RootNamespace>My240412</RootNamespace>
+    <ProjectGuid>{53f4bcde-fe77-4dba-8731-52d1a08a3e1f}</ProjectGuid>
+    <RootNamespace>My240413</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,8 +127,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="240412.cpp" />
-    <ClCompile Include="240412_LL.cpp" />
+    <ClCompile Include="240413_Core.cpp" />
+    <ClCompile Include="240413_FileStream.cpp" />
+    <ClCompile Include="240413_MapManager.cpp" />
+    <ClCompile Include="240413_ObjectManager.cpp" />
+    <ClCompile Include="240413_Player.cpp" />
+    <ClCompile Include="240413_Running.cpp" />
+    <ClCompile Include="240413_Stage.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="240413_Core.h" />
+    <ClInclude Include="240413_FileStream.h" />
+    <ClInclude Include="240413_Mapmanager.h" />
+    <ClInclude Include="240413_ObjectManager.h" />
+    <ClInclude Include="240413_Player.h" />
+    <ClInclude Include="240413_Stage.h" />
+    <ClInclude Include="240413_value.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
